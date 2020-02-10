@@ -4,14 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.ConnectException;
 import java.util.List;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
-import unicam.trentaEFrode.domain.parsers.Parser;
-import unicam.trentaEFrode.domain.users.UtenteRegistrato;
+import unicam.trentaEFrode.domain.parsers.ParserCategorie;
 
 
 
@@ -20,19 +17,18 @@ class TestCategorie {
 
 	@Test
 	void testLoadCategorie() {
-		List<?> list = null;
+		String s="";
 		try {
-			list = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
+			s = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		List<Categoria> l=Parser.getInstance().parseCategorieFromServer((String)list.get(0));
+		List<Categoria> l=ParserCategorie.getInstance().parseCategorieFromServer(s);
 		
 		l.stream().forEach(cat->System.out.println(cat.toString()));
 		
-		assertNotNull(list.get(0));
+		assertNotNull(s);
 	}
 	
 	/*

@@ -1,7 +1,6 @@
 package unicam.trentaEFrode.ui;
 
 import java.net.ConnectException;
-import java.util.List;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
@@ -9,7 +8,6 @@ import com.gluonhq.charm.glisten.control.TextField;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,8 +23,7 @@ import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.DocuDiRegis;
 import unicam.trentaEFrode.domain.mainElements.GestoreRegistrazioni;
 import unicam.trentaEFrode.domain.mainElements.RegistroCategorie;
-import unicam.trentaEFrode.domain.parsers.Parser;
-import unicam.trentaEFrode.exceptions.CategoriaInesistente;
+import unicam.trentaEFrode.domain.parsers.ParserCategorie;
 
 /**
  * Rappresenta il controller (patter MVC) della pagina di registrazione.
@@ -115,7 +112,7 @@ public class Registrazione extends Controller {
                 campocitta.getText());
     	
     	
-        docu.setInteressi(Parser.getInstance().parseCategorieToServer(listInteressi.getItems()));        
+        docu.setInteressi(ParserCategorie.getInstance().parseCategorieToServer(listInteressi.getItems()));        
         
         messaggio.setText(visualizzaRisposta(GestoreRegistrazioni.getInstance().effettuaControlli(docu)));
         

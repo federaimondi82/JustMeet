@@ -21,7 +21,7 @@ import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.DocuDiRegis;
 import unicam.trentaEFrode.domain.mainElements.GestoreRegistrazioni;
 import unicam.trentaEFrode.domain.mainElements.Registratore;
-import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserUser;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 
@@ -103,7 +103,7 @@ class TestGestoreRegistrazioni {
 		BufferedReader br=null;
 		try {
 			//la chiamata ritorna tutti gli utenti su DB
-			url = new URL("http://localhost:8080/utenti");
+			url = new URL("http://localhost:8080/utenti/"+String.valueOf((int)(Math.random()*10000))+"");
 		
 			con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("GET");
@@ -126,8 +126,9 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	public final void test_registraUtenteTrue() {
-		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
-		
+		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", String.valueOf((int)(Math.random()*10000))+"@email.it", String.valueOf((int)(Math.random()*10000)), "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
+		docu.setInteressi("1_2_");
+
 		URL url=null;
 		HttpURLConnection con=null;
 		try {
@@ -175,7 +176,6 @@ class TestGestoreRegistrazioni {
 		try {
 			assertTrue(Registratore.getInstance().registra(docu)==false);
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -185,9 +185,8 @@ class TestGestoreRegistrazioni {
 		
 		String value = null;
 		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/nickname/marione", "GET").get(0).toString();
+			value = ConnectBackEnd.getInstance().restRequest("/utenti/nickname/marione", "GET");
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertTrue(Boolean.parseBoolean(value));
@@ -196,14 +195,13 @@ class TestGestoreRegistrazioni {
 	@Test
 	public final void test_autenticazione() {
 		
-		String value = null;
+		String value = "";
 		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/mariorossi2@email.it:abc", "GET").get(0).toString();
+			value = ConnectBackEnd.getInstance().restRequest("/utenti/mariorossi2@email.it:abc", "GET");
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		UtenteRegistrato u=Parser.getInstance().parseUtenteFromServer(value);
+		UtenteRegistrato u=ParserUser.getInstance().parseUtenteFromServer(value);
 		assertTrue(u.getNome().equals("mario"));
 		System.out.println(u.toString());
 	}

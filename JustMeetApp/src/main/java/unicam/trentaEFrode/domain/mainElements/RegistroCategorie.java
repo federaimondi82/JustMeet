@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserUser;
+import unicam.trentaEFrode.domain.parsers.ParserCategorie;
 import unicam.trentaEFrode.exceptions.CategoriaInesistente;
 
 /**
@@ -53,8 +54,8 @@ public class RegistroCategorie {
 	 * @throws ConnectException 
 	 */
 	public List<Categoria> caricaCategorie() throws ConnectException {
-		List<?> list=ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
-		return Parser.getInstance().parseCategorieFromServer((String)list.get(0));
+		String s=ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
+		return ParserCategorie.getInstance().parseCategorieFromServer(s);
 	}
 	
 	public List<Categoria> categorie() {

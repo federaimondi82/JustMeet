@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserUser;
+import unicam.trentaEFrode.domain.parsers.ParserCategorie;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
@@ -177,7 +178,7 @@ public class RegistroStatico {
 		String generalita=this.fileStatico.get(0);
 		
 		//prima istanziazione di UtenteRegistarto restituita dal Parser
-		Parser.getInstance().parseUtenteFromFile(generalita);
+		ParserUser.getInstance().parseUtenteFromFile(generalita);
 	}
 	
 	/**
@@ -185,7 +186,7 @@ public class RegistroStatico {
 	 */
 	public List<Categoria> leggiInteressi() {
 		String json=this.fileStatico.get(1);
-		return Parser.getInstance().parseCategorieFromServer(json);
+		return ParserCategorie.getInstance().parseCategorieFromServer(json);
 	}
 
 
