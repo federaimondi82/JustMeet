@@ -23,6 +23,7 @@ class TestCategorie {
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}
+		System.out.println(s);
 		
 		List<Categoria> l=ParserCategorie.getInstance().parseCategorieFromServer(s);
 		

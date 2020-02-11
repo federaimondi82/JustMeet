@@ -13,6 +13,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,6 @@ class TestGestoreRegistrazioni {
 		try {
 			assertEquals(errori, reg.effettuaControlli(docu));
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -197,13 +197,15 @@ class TestGestoreRegistrazioni {
 		
 		String value = "";
 		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/mariorossi2@email.it:abc", "GET");
+			value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}
-		UtenteRegistrato u=ParserUser.getInstance().parseUtenteFromServer(value);
-		assertTrue(u.getNome().equals("mario"));
-		System.out.println(u.toString());
+		ParserUser.getInstance().parseUtenteFromServer(value);
+		assertEquals(UtenteRegistrato.getInstance().getNome(), "Mario");
+		assertEquals(UtenteRegistrato.getInstance().getCognome(), "Rossi");
+		assertTrue(UtenteRegistrato.getInstance().getDataDiNascita().equals(new GregorianCalendar(2000, 20, 20)));
+
 	}
 	
 }
