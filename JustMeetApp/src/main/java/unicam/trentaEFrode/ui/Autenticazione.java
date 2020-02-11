@@ -22,7 +22,7 @@ import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.GestoreRegistrazioni;
 import unicam.trentaEFrode.domain.mainElements.RegistroCategorie;
 import unicam.trentaEFrode.domain.mainElements.RegistroStatico;
-import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserUser;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 public class Autenticazione extends Controller{
@@ -100,19 +100,19 @@ public class Autenticazione extends Controller{
 	}
 
 	/**
-	 * Invia la request al server il quale ripinde con le credenziali dell'utente;<br>
+	 * Invia la request al server il quale risponde con le credenziali dell'utente;<br>
 	 * Viene cosi' creato L'utenteRegistrato
 	 * @param credenziali l'email e la password scritte sulla gui
 	 * @return il nome dell'utenteregistrato
 	 */
 	private String resultFromServer(String credenziali) {
 		//invio e ritorno della request
-		List<?> list;
+		String s="";
 		try {
-			list = ConnectBackEnd.getInstance().restRequest("/utenti/auth/"+credenziali, "GET");
+			s = ConnectBackEnd.getInstance().restRequest("/utenti/auth/"+credenziali, "GET");
 				
 			//parsing della stringa di ritorno,va a creare l'utente Registrato e i sui interessi
-			Parser.getInstance().parseUtenteFromServer((String) list.get(0));
+			ParserUser.getInstance().parseUtenteFromServer(s);
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}

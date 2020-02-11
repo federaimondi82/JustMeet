@@ -23,16 +23,11 @@ class TestGestoreEventi {
 	GestoreEventi gest = GestoreEventi.getInstance();
 	
 	@Test
-	void testEffettuaControlliEventoVuoto() {
+	void testEffettuaControlliEventoVuoto() throws ConnectException {
 		Evento e = new Evento("", null, 0,0,"",0, new Luogo("","","","","",""), null);
 		List<Integer> errori = new ArrayList<>();
 		errori.add(1);
-		try {
-			assertEquals(errori, gest.effettuaControlli(e));
-		} catch (ConnectException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		assertEquals(errori, gest.effettuaControlli(e));
 	}
 
 	@Test
@@ -49,16 +44,15 @@ class TestGestoreEventi {
 	@Test
 	public final void sendNewEvento() throws ConnectException {
 		//istanze per la creazione dell'evento
-		Luogo luogo = new Luogo("bar", "viaTuring", "10", "63100", "Ascoli", "AP");		
+		Luogo luogo = new Luogo("bar", "viaTuring", String.valueOf((int)(Math.random()*10000)), "63100", "Ascoli", "AP");		
 		Categoria cat = RegistroCategorie.getInstance().categorie().get(1);//2:sport:pallavolo
 		GregorianCalendar data = new GregorianCalendar(2020, 1, 1, 11, 11);
 		
 		//istanza dell'evento da salvare
-		Evento evento = new Evento("capodanno",data,10, 100,"festa",5,luogo,cat);
-		
+		Evento evento = new Evento(String.valueOf((int)(Math.random()*10000)),data,10, 100,"festa",5,luogo,cat);
+		System.out.println(evento.toString()+":"+"18");
 		
 		boolean b=ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST",(evento.toString()+":"+"18"));
-		//boolean c= ConnectBackEnd.getInstance().restRequest("/eventi/", "POST",evento.nome());
 		assertTrue(b);
 	}
 }

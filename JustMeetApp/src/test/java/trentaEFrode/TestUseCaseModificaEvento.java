@@ -3,6 +3,7 @@ package trentaEFrode;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.net.ConnectException;
 import java.util.GregorianCalendar;
 
 import org.junit.jupiter.api.AfterEach;
@@ -19,10 +20,10 @@ import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 class TestUseCaseModificaEvento {
 
 	@Test
-	void testModificaEventoData() {
+	void testModificaEventoData() throws ConnectException {
 		UtenteRegistrato organizzatore = UtenteRegistrato.getInstance().id(18);
 		//Recupero gli eventi creati dall'utente
-		?? eventi = ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + organizzatore.getId(), "GET");
+		String eventi = ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + organizzatore.getId(), "GET");
 		GregorianCalendar data = new GregorianCalendar();
 		data.add(GregorianCalendar.MONTH, 2);
 		Evento e = new Evento("Pranzo di beneficenza", data , 3, 100, "I soldi ricavati andranno in beneficenza", 3, new Luogo("Ristorante Casa Mia", "via della cucina", "15/A", "63100", "Ascoli Piceno", "AP"), new Categoria(4, "Cibo", "Per le persone più golose."));
@@ -34,6 +35,4 @@ class TestUseCaseModificaEvento {
 		String json = ConnectBackEnd.getInstance().restRequest("/eventi/"  + 11 , "GET");
 		assertEquals(e, Parser.getInstance().parseEventi(json));
 	}
-
-
 }

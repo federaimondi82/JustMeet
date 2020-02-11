@@ -76,7 +76,7 @@ public class DocuDiRegis {
 	 * @return the Password
 	 */
 	public String getPassword() {
-		return ripetiPassword;
+		return password;
 	}
 
 

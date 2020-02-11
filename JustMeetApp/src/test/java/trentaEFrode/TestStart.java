@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.RegistroStatico;
-import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserUser;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 public class TestStart {
@@ -27,11 +27,11 @@ public class TestStart {
 					
 		boolean s1=false;
 
-		List<?> list = null;
+		String s="";
 		try {
-			list = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
+			s = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
 			
-			s1=Boolean.parseBoolean((String) list.get(0));		
+			s1=Boolean.parseBoolean(s);		
 			
 			System.out.println("connessione ok");
 			
@@ -91,11 +91,11 @@ public class TestStart {
 	@Test
 	public final void testAutenticazione() {
 		try {
-			List<?> list=ConnectBackEnd.getInstance()
+			String s=ConnectBackEnd.getInstance()
 					.restRequest("/utenti/auth/"+"fede_7_@gmail.com"+":"+"688787D8FF144C502C7F5CFFAAFE2CC588D86079F9DE88304C26B0CB99CE91C6", "GET");
 			
 
-			Parser.getInstance().parseUtenteFromServer((String) list.get(0));
+			ParserUser.getInstance().parseUtenteFromServer(s);
 			assertTrue(UtenteRegistrato.getInstance().getCap()!=null);
 			
 		} catch (ConnectException e) {

@@ -84,12 +84,13 @@ public class ConnectBackEnd {
 	 * @param method il metodo http da applicare
 	 * @return ritorna la risposta dal server
 	 */
-	public List<String> restRequest(String path,String method) throws ConnectException {
+	public String restRequest(String path,String method) throws ConnectException {
 		
 		//prima della chiamata REST al server viene testata la connessione
 		//Setup.getInstance().check_connection();
-				
-		List<? super Object> list=new ArrayList<Object>();
+		
+		String s="";
+		
 		try {
 			this.url = new URL(getDomain()+path);
 		
@@ -97,13 +98,16 @@ public class ConnectBackEnd {
 			this.con.setRequestMethod(method);
 			this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
 			
-			list.add(this.br.readLine());
+			s=this.br.readLine();
 			this.con.disconnect();
 			
 		} catch (IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
-		return list;
+		
+		System.out.println("connect backend 108 = " + s);
+		
+		return s;
 		
 	}
 	

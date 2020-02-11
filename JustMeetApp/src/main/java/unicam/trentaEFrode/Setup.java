@@ -35,11 +35,11 @@ public class Setup {
 	public void check_connection() {
     	boolean s1=false;
 
-		List<?> list = null;
+		String s="";
 		try {
-			list = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
+			s = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
 			
-			s1=Boolean.parseBoolean((String) list.get(0));		
+			s1=Boolean.parseBoolean(s);		
 					
 			System.out.println("connessione ok");
 			
