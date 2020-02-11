@@ -84,7 +84,7 @@ public class ConnectBackEnd {
 	 * @param method il metodo http da applicare
 	 * @return ritorna la risposta dal server
 	 */
-	public List<? super Object> restRequest(String path,String method) throws ConnectException {
+	public List<String> restRequest(String path,String method) throws ConnectException {
 		
 		//prima della chiamata REST al server viene testata la connessione
 		//Setup.getInstance().check_connection();

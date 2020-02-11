@@ -20,6 +20,7 @@ public class UtenteRegistrato implements Utente {
 	private GregorianCalendar dataDiNascita;
 	private String citta;
 	private String cap;
+	private String provincia;
 	private List<Categoria> interessi;
 	
 	
@@ -188,6 +189,10 @@ public class UtenteRegistrato implements Utente {
 			interessi+=c.toString()+"_";
 		}
 		return interessi=interessi.substring(0, interessi.length()-1);
+	}
+
+	public String getProvincia() {
+		return provincia;
 	}
 
 	
