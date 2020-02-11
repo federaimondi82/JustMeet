@@ -32,17 +32,16 @@ public class ParserUser {
 		 *{"id":23,"nome":"Mario","cognome":"Rossi","email":"6133@email.it","nickname":"2964",
 		 *"password":"abc","ripetiPassword":"abc","dataDiNascita":"20/20/2000","citta":"Roma",
 		 *"cap":"6","interessi":"{1.sport.calcio_2.sport.pallavolo}"}
-		 * */
-		System.out.println(value);
-		
+		 * */		
 		//eleminazione di alcuni caratteri inutili all'inizio,alla fine o dentro la stringa
-		String s1=value.substring(1, value.length()-1);//elimina le parentesi di inizio e fine				
-		//String[] json=s1.replace("\"", "").split(",");		
+		String s1=value.substring(1, value.length()-1);//elimina le parentesi di inizio e fine						
 		String[] json=s1.split(",");
 		
 		System.out.println(s1);
 		
 		GregorianCalendar dataNascita=ParserData.getInstance().parsaDataDiNascita(json[7].split(":")[1]);
+
+
 		List<Categoria> interessi=ParserCategorie.getInstance().parseCategorieFromServer(json[10]);	
 		
 		UtenteRegistrato.getInstance().id(Integer.parseInt(json[0].split(":")[1]))

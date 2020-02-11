@@ -44,14 +44,12 @@ public class GestoreEventi extends Gestore {
 		Luogo luogo = evento.luogo();
 		Categoria categoria = evento.categoria();
 		List<Integer> risposta = new ArrayList<>();
-		if (nome == "" || descrizione == "" || categoria == null || dataOra == null)
-			risposta.add(1);
-		if (dataOra != null)
-			controllaDataOra(dataOra, risposta);
+		if (nome == "" || descrizione == "" || categoria == null || dataOra == null) risposta.add(1);
+		if (dataOra != null) controllaDataOra(dataOra, risposta);
 		controllaLuogo(luogo, risposta);
 		controllaMinMax(min, max, risposta);
-		if (risposta.size() != 0)
-			return risposta;
+		if (risposta.size() != 0) return risposta;
+		
 		risposta.add(this.registratore.registra(evento) ? -1 : 0);
 		return risposta;
 	}

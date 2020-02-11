@@ -13,6 +13,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,6 @@ class TestGestoreRegistrazioni {
 		try {
 			assertEquals(errori, reg.effettuaControlli(docu));
 		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -188,10 +188,7 @@ class TestGestoreRegistrazioni {
 			value = ConnectBackEnd.getInstance().restRequest("/utenti/nickname/marione", "GET");
 		} catch (ConnectException e) {
 			e.printStackTrace();
-		}
-		
-		System.out.println("value = " + value);
-		
+		}		
 		assertTrue(Boolean.parseBoolean(value));
 	}
 	
@@ -200,11 +197,17 @@ class TestGestoreRegistrazioni {
 		
 		String value = "";
 		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/mariorossi@email.it:abc", "GET");
-			assertTrue(Boolean.parseBoolean(value));
+			value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/3517@email.it:abc", "GET");
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("test autenticazione 205" + value);
+		ParserUser.getInstance().parseUtenteFromServer(value);
+		assertEquals(UtenteRegistrato.getInstance().getNome(), "Mario");
+		assertEquals(UtenteRegistrato.getInstance().getCognome(), "Rossi");
+		assertTrue(UtenteRegistrato.getInstance().getDataDiNascita().equals(new GregorianCalendar(2000, 20, 20)));
+
 	}
 	
 }

@@ -33,15 +33,12 @@ public class Setup {
 	 * inviando una richiesta al beckend
 	 */
 	public void check_connection() {
-    	boolean s1=false;
-
-		String s="";
 		try {
-			s = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
-			
-			s1=Boolean.parseBoolean(s);		
-					
-			System.out.println("connessione ok");
+			 //s1 = false;
+		
+			String s = ConnectBackEnd.getInstance().restRequest("/testConnessione", "GET");
+								
+			if(Boolean.parseBoolean(s)) System.out.println("connessione ok");
 			
 		} catch (Exception e) {
 			/*

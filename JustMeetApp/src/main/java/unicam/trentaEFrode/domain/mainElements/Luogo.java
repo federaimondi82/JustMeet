@@ -147,7 +147,7 @@ public class Luogo {
 	
 	@Override
 	public String toString() {
-		return nome + ":" + citta + ":" + indirizzo + ":" + numeroCivico + ":" + cap+ ":" + provincia;
+		return nome.replace(" ", "_") + ":" + citta.replace(" ", "_") + ":" + indirizzo.replace(" ", "_") + ":" + numeroCivico + ":" + cap+ ":" + provincia;
 	}
 	
 	public boolean equals(Luogo luogo) {

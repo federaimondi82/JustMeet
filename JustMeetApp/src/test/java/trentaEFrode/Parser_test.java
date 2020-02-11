@@ -15,10 +15,9 @@ import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 class Parser_test {
 	
-	
 	@Test
-	public final void parserUser_dataFromServer_exceptions() {
-		String credenziali="6133@email.it:abc";
+	public final void parserUser_dataFromServer() {
+		String credenziali="3517@email.it:abc";
 		String s="";
 		try {
 			s = ConnectBackEnd.getInstance().restRequest("/utenti/auth/"+credenziali, "GET");
@@ -28,7 +27,7 @@ class Parser_test {
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}
-		assertEquals(UtenteRegistrato.getInstance().getNome(), "Mario");
+		assertEquals("Mario", UtenteRegistrato.getInstance().getNome());
 		assertEquals(UtenteRegistrato.getInstance().getCognome(), "Rossi");
 		assertTrue(UtenteRegistrato.getInstance().getDataDiNascita().equals(new GregorianCalendar(2000, 20, 20)));
 	}

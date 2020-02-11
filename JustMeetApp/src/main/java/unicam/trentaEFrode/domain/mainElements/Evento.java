@@ -298,8 +298,8 @@ public class Evento {
 		int MM=dataOra.get(Calendar.MINUTE);
 		String data=aaaa+":"+mm+":"+gg+":"+HH+":"+MM;
 		
-		return nome + ":" + data + ":" + minPartecipanti
-				+ ":" + maxPartecipanti + ":" + descrizione + ":" + durata
+		return nome.replace(" ", "_") + ":" + data + ":" + minPartecipanti
+				+ ":" + maxPartecipanti + ":" + descrizione.replace(" ", "_") + ":" + durata
 				+ ":" + luogo.toString() + ":" + String.valueOf(categoria.getId());
 	}	
 	

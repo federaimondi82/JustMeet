@@ -50,24 +50,28 @@ public class ConnectBackEnd {
 	 * @param obj un elemento da inserire nel database
 	 * @return ritorna la risposta dal server
 	 */
-	public boolean restRequest(String path,String method,Object obj)  throws ConnectException {
+	public boolean restRequest(String path,String method, String obj)  throws ConnectException {
 		
 		//prima della chiamata REST al server viene testata la connessione
 		Setup.getInstance().check_connection();
 		
-		List<? super Object> list=new ArrayList<Object>();
+		String list="";
 		boolean response=false;
 		try {
 			this.url = new URL(getDomain()+path+obj);
-		
+			
+			System.out.println("connectbackend 63 = " + getDomain()+path+"/"+ obj);
+			
 			this.con = (HttpURLConnection) url.openConnection();
-			this.con.setRequestMethod(method);
+			this.con.setRequestMethod("/" + method);
 			
 			this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
 			
-			list.add(this.br.readLine());
-			response=Boolean.parseBoolean(list.get(0).toString());
+			list = this.br.readLine();
+			response=Boolean.parseBoolean(list);
 
+			System.out.println("connect backend 73 response = " + response );
+			
 			this.con.disconnect();
 			
 		} catch (IOException e) {
@@ -89,6 +93,8 @@ public class ConnectBackEnd {
 		//prima della chiamata REST al server viene testata la connessione
 		//Setup.getInstance().check_connection();
 		
+		System.out.println("connect backend 94 " + path + " " + method);
+		
 		String s="";
 		
 		try {
@@ -99,13 +105,16 @@ public class ConnectBackEnd {
 			this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
 			
 			s=this.br.readLine();
+
 			this.con.disconnect();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("connect backend 112 ops è scattata l'eccezione!!!!!");
+
 		}
 		
-		System.out.println("connect backend 108 = " + s);
+		System.out.println("connect backend 116 = " + s);
 		
 		return s;
 		

@@ -28,7 +28,6 @@ class TestUseCaseCreazioneEvento {
 		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(e);
 		assertEquals(1, risposta.size());
 		assertEquals(new Integer(-1), risposta.get(0));
-
 	}
 
 }

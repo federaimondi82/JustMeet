@@ -25,17 +25,18 @@ public class ParserCategorie {
 	 * @see Categorie
 	 */
 	public List<Categoria> parseCategorieFromServer(String json) {
-//		System.out.println(json);
-//		json=json.split(":")[1]; //.substring(1, json.split(":")[1].length()-1);
-//		json=json.substring(1, json.length()-1);
-
+		
+		if(json.contains(":"))json=json.split(":")[1];
+		if(json.contains("{"))json=json.replace("{", "");
+		if(json.contains("}"))json=json.replace("}", "");
+		if(json.contains("\""))json=json.replace("\"", "");
+		
 		List<Categoria> catList =new ArrayList<>();
 		
 		int j=json.split("_").length;		
 		for(int i=0;i<j;i++) {
 			String cat=json.split("_")[i];
 			String[] data =cat.split("-");
-			//Categoria m=new Categoria(Integer.parseInt(data[0]), data[1], data[2]);
 			catList.add(new Categoria(Integer.parseInt(data[0]), data[1], data[2]));
 		}
 
