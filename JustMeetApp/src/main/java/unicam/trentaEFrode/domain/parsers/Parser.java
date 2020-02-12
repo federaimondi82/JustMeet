@@ -139,29 +139,6 @@ public class Parser {
 		return s;
 	}
 	
-	public List<Evento> parseEventi(String newJson) {
-		
-		//elimina alcuni caratteri inutili all'inizio e alla fine della stringa
-		String s1=newJson.substring(1, newJson.length()-1);
-			
-		//istanza per il return del metodo
-		List<Evento> eventi =new ArrayList<Evento>();
-			
-		//splitta la stringa restante in parti che diventeranno istanze di tipo Evento
-		for(String e : s1.split(",")) {
-			String[] data = e.substring(1, e.length()-1).split(";");
-
-			eventi.add(new Evento(Integer.parseInt(data[0].split(":")[1]))
-	.setNome(data[1].split(":")[1])
-	.setDataOra(new GregorianCalendar(data[2].split(":")[1]))
-	.setMinPartecipanti(data[3].split(":")[1])
-	.setMaxPartecipanti(data[4].split(":")[1])
-	.setDescrizione(data[5].split(":")[1])
-	.setDurata(data[6].split(":")[1])
-	.setLuogo(data[7].split(":")[1])
-	.setCategoria(data[8].split(":")[1]));
-		}
-		return eventi;
-	}
+	
 
 }

@@ -28,10 +28,7 @@ public class Registratore {
 	 * @throws ConnectException 
 	 */
 	public boolean registra(Evento evento) throws ConnectException {
-		
-		return evento.id() == -1?
-				ConnectBackEnd.getInstance().restRequest("/eventi/nuovo", "POST", evento.toString()+":"+String.valueOf(UtenteRegistrato.getInstance().getId()))
-				: ConnectBackEnd.getInstance().restRequest("/eventi/" + evento.id() , "UPDATE", evento.toString());
+		return	ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST", evento.toString()+":"+String.valueOf(UtenteRegistrato.getInstance().getId()));
 	}
 	
 	//TODO FEDERICO, ti ho lasciato il metodo che avevo pensato io. forse ti pu� essere utile

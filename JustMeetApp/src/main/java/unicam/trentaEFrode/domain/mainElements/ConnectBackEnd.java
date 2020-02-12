@@ -53,32 +53,34 @@ public class ConnectBackEnd {
 	public boolean restRequest(String path,String method, String obj)  throws ConnectException {
 		
 		//prima della chiamata REST al server viene testata la connessione
-		Setup.getInstance().check_connection();
+		boolean result = Setup.getInstance().check_connection();
 		
-		String list="";
-		boolean response=false;
-		try {
-			this.url = new URL(getDomain()+path+obj);
-			
-			System.out.println("connectbackend 63 = " + getDomain()+path+"/"+ obj);
-			
-			this.con = (HttpURLConnection) url.openConnection();
-			this.con.setRequestMethod("/" + method);
-			
-			this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
-			
-			list = this.br.readLine();
-			response=Boolean.parseBoolean(list);
+		System.out.println("connection be 58 result inizio = " + result);
+		
+		if(result) {
+			String list="";
+			try {
+				this.url = new URL(getDomain()+path+obj);				
+				this.con = (HttpURLConnection) url.openConnection();
+				this.con.setRequestMethod(method);
+				
+				this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
+				
+				list = this.br.readLine();
+				result = Boolean.parseBoolean(list);
+				
+				System.out.println("connection be 58 result fine = " + result);
 
-			System.out.println("connect backend 73 response = " + response );
-			
-			this.con.disconnect();
-			
-		} catch (IOException e) {
-			return false;
-			//e.printStackTrace();
+				
+				this.con.disconnect();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
-		return response;
+		
+		return result;
 		
 	}
 	

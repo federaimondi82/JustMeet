@@ -5,7 +5,7 @@ package unicam.trentaEFrode.domain.mainElements;
  */
 public class Luogo {
 	
-
+	private int id;
 	/**
 	 * Nome della citta del luogo.
 	 */
@@ -30,6 +30,19 @@ public class Luogo {
 	 * Sigla della provincia
 	 */
 	private String provincia;
+
+	public Luogo(
+			int id,
+			String nome, 
+			String indirizzo, 
+			String numeroCivico, 
+			String cap, 
+			String citta, 
+			String provincia			
+			) {	
+		this(nome, indirizzo, numeroCivico, cap, citta,  provincia);
+		this.id = id;
+	}
 
 	/**
 	 * Crea un luogo senza specificare il nome del luogo
@@ -164,5 +177,13 @@ public class Luogo {
 	
 	public String stringaLuogo() {
 		return nome + " " + indirizzo + " " + numeroCivico + " " + cap + " " + citta + " " + provincia;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

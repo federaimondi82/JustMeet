@@ -32,25 +32,17 @@ public class Setup {
 	 * Viene controllato se il dispositivo usato e' connesso alla rete<br>
 	 * inviando una richiesta al beckend
 	 */
-	public void check_connection() {
-		try {
-			 //s1 = false;
-		
+	public boolean check_connection() {
+		boolean result = false;
+		try {		
 			String s = ConnectBackEnd.getInstance().restRequest("/testConnessione", "GET");
-								
-			if(Boolean.parseBoolean(s)) System.out.println("connessione ok");
-			
+			result = Boolean.parseBoolean(s);					
+			if(result) System.out.println("connessione ok");
 		} catch (Exception e) {
-			/*
-			String s=AppViewManager.getView().stream().filter((view)->{
-				return view.isShownInDrawer();
-			}).collect(Collectors.toList()).get(0).getTitle();
-			System.out.println("View: "+s);
-			*/
 			System.out.println("nessuna connessione");
-			
+			return false;
 		}
-		
+		return result;
 	}
 
 	/**

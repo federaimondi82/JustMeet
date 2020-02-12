@@ -3,7 +3,11 @@ package unicam.trentaEFrode.domain.mainElements;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
- * Rappresenta le possibili categorie di eventi o interessi dell'utente
+ * Questa classe consente di modellizzare le categorie/interessi degli eventi;
+ * potrebbe essere la categoria "sport" o "cucina" ecc...
+ * Le categorie disponibili vengono caricare ad avvio dell'applicazione consultado il backend;
+ *  è infatti in backend a dettare le categorie disponibili, questo per non sovraccarivare il
+ *  database con categorie personalizzate
  *
  *@see Evento
  *@see UtenteRegistrato
@@ -53,18 +57,14 @@ public class Categoria {
 		return descrizione;
 	}
 
-	/**
-	 * @param descrizione the description to set
-	 */
-	public void cambiaDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
+
 	/**
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
+	
 	/**
 	 * @param id the id to set
 	 */
