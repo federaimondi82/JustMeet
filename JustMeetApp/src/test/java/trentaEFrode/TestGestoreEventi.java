@@ -49,10 +49,8 @@ class TestGestoreEventi {
 		GregorianCalendar data = new GregorianCalendar(2020, 1, 1, 11, 11);
 		
 		//istanza dell'evento da salvare
-		Evento evento = new Evento(String.valueOf((int)(Math.random()*10000)),data,10, 100,"festa",5,luogo,cat);
-		System.out.println(evento.toString()+":"+"18");
-		
-		boolean b=ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST",(evento.toString()+":"+"18"));
+		Evento evento = new Evento(String.valueOf((int)(Math.random()*10000)),data,10, 100,"festa",5,luogo,cat);		
+		boolean b=ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST",(evento.toString()+":"+"2"));
 		assertTrue(b);
 	}
 }

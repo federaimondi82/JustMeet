@@ -27,24 +27,8 @@ public class Registratore {
 	 * @return ritorna true se l'evento e' stato salvato, altrimenti false
 	 * @throws ConnectException 
 	 */
-	public boolean registra(Evento evento) throws ConnectException {
-		return	ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST", evento.toString()+":"+String.valueOf(UtenteRegistrato.getInstance().getId()));
-	}
-	
-	//TODO FEDERICO, ti ho lasciato il metodo che avevo pensato io. forse ti pu� essere utile
-	/**
-	 * Crea la chiamata per modificare dei singoli campi dell'evento avente l'id = id.
-	 * @throws ConnectException 
-	 * 
-	 * */
-	public boolean modificaVeronica(int id, Map<String, String> campi) throws ConnectException {
-		String mapToString = "";
-		int count = 0;
-		for (Map.Entry<String, String> campo: campi.entrySet()) {
-			count ++; // TRA IL CAMPO E IL VALORE INSERISCO = MENTRE TRA I CAMPI INSERISCO : per facilitare l'eventuale split
-			mapToString += campo.getKey() + "=" + campo.getValue() + (count != campi.size()? ":" : "");
-		}
-		return ConnectBackEnd.getInstance().restRequest("/eventi/aggiorna/" + id , "UPDATE", mapToString);		
+	public boolean registra(Evento evento) {
+		return ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST", evento.toString());
 	}
 		
 	/**

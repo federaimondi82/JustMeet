@@ -161,7 +161,7 @@ class TestGestoreRegistrazioni {
 			con.setRequestMethod("POST");
 			br=new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String line=br.readLine();
-			assertEquals(false, Boolean.parseBoolean(line));
+			assertFalse(Boolean.parseBoolean(line));
 			
 			con.disconnect();
 			
@@ -171,10 +171,10 @@ class TestGestoreRegistrazioni {
 	}
 	
 	@Test
-	public final void test_registrazione() {
+	public final void test_registrazione_annoNascitaNonValido() {
 		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi2@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
 		try {
-			assertTrue(Registratore.getInstance().registra(docu)==false);
+			assertFalse(Registratore.getInstance().registra(docu));
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}
@@ -197,7 +197,7 @@ class TestGestoreRegistrazioni {
 		
 		String value = "";
 		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/3517@email.it:abc", "GET");
+			value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
 		} catch (ConnectException e) {
 			e.printStackTrace();
 		}

@@ -3,6 +3,7 @@ package trentaEFrode;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Random;
 import java.net.ConnectException;
 import java.util.GregorianCalendar;
 
@@ -22,22 +23,20 @@ class TestUseCaseModificaEvento {
 
 	@Test
 	void testModificaEventoData() throws ConnectException {
-		UtenteRegistrato organizzatore = UtenteRegistrato.getInstance().id(18);
-		//Recupero gli eventi creati dall'utente
+		UtenteRegistrato organizzatore = UtenteRegistrato.getInstance().id(2);
+		//Step 1 :Recupero gli eventi creati dall'utente
 		String eventi = ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + organizzatore.getId(), "GET");
 		System.out.println("eventi = " + eventi);
 		List<Evento> lista = ParserEventi.getInstance().parseEventi(eventi);
-		
-		/*List<Evento> lista = Pars
-		GregorianCalendar data = new GregorianCalendar();
-		data.add(GregorianCalendar.MONTH, 2);
-		Evento e = new Evento("Pranzo di beneficenza", data , 3, 100, "I soldi ricavati andranno in beneficenza", 3, new Luogo("Ristorante Casa Mia", "via della cucina", "15/A", "63100", "Ascoli Piceno", "AP"), new Categoria(4, "Cibo", "Per le persone più golose."));
-		e = e.setOrganizzatore(organizzatore.getId());
-		e.dataOra().add(GregorianCalendar.MONTH, 3);
+		//Step 2 : scelgo un evento randomico
+		Evento e = lista.get(new Random().nextInt(lista.size()));
+		//Step 3 : creo una nuova data e la imposto come data dell'evento scelto
+		GregorianCalendar nuovaData = new GregorianCalendar();
+		nuovaData.add(GregorianCalendar.MONTH, 2);
+		e.cambiaDataOra(nuovaData);
+		//Step 4: confermo le modifiche
 		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(e);
 		assertEquals(1, risposta.size());
 		assertEquals(new Integer(-1), risposta.get(0));
-		String json = ConnectBackEnd.getInstance().restRequest("/eventi/"  + 11 , "GET");
-		assertEquals(e, Parser.getInstance().parseEventi(json));*/
 	}
 }

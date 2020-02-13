@@ -59,7 +59,6 @@ public class Evento {
 	 * */
 	List<Integer> partecipanti;
 
-	//TODO per veronica: confermato che?
 	private boolean confermato;
 
 	/**
@@ -298,9 +297,15 @@ public class Evento {
 		int MM=dataOra.get(Calendar.MINUTE);
 		String data=aaaa+":"+mm+":"+gg+":"+HH+":"+MM;
 		
+		/*
+		 * {id}:{nome}:{aaaa}:{mm}:{gg}:{HH}:{MM}:{min}:"
+			+ "{max}:{descr}:{durata}:{nomeLuogo}:{citta}:{indirizzo}:{civico}:"
+			+ "{cap}:{prov}:{idCat}:{idUtente}"
+		 * */
+		
 		return id + ":" + nome.replace(" ", "_") + ":" + data + ":" + minPartecipanti
 				+ ":" + maxPartecipanti + ":" + descrizione.replace(" ", "_") + ":" + durata
-				+ ":" + luogo.toString() + ":" + String.valueOf(categoria.getId());
+				+ ":" + luogo.toString() + ":" +categoria.getId() + ":" + organizzatore;
 	}	
 	
 	public boolean equals(Evento evento) {

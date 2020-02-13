@@ -20,7 +20,8 @@ class TestUseCaseCreazioneEvento {
 
 	@Test
 	void testEventoValido() throws ConnectException {
-		UtenteRegistrato organizzatore = UtenteRegistrato.getInstance().id(18);
+		UtenteRegistrato organizzatore = UtenteRegistrato.getInstance().id(2);
+		
 		GregorianCalendar data = new GregorianCalendar();
 		data.add(GregorianCalendar.MONTH, 2);
 		Evento e = new Evento("Pranzo di beneficenza", data, 3, 100, "I soldi ricavati andranno in beneficenza", 3, new Luogo("Ristorante Casa Mia", "via della cucina", String.valueOf((int)(Math.random()*10000)), "63100", "Ascoli Piceno", "AP"), new Categoria(4, "Cibo", "Per le persone piu golose."));

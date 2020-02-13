@@ -112,58 +112,6 @@ public class GestoreEventi extends Gestore {
 			lista.add(4);
 	}
 
-	public List<Integer> modificaFederico(Evento evento) throws ConnectException {
-		List<Integer> lista = new ArrayList<>();
-		lista.add(this.registratore.registra(evento) ? -1 : 0);
-		return lista;
-	}
-
-	// TODO FEDERICO, ti ho lasciato il metodo che avevo pensato io. forse ti pu�
-	// essere utile
-	/**
-	 * Modifica {@code evento} con i campi di {@code nuovo} solo se i campi di
-	 * quest'ultimo sono validi. Se i campi non sono validi, vengono ignorati
-	 * 
-	 * @throws ConnectException
-	 */
-	public List<Integer> modificaVeronica(Evento evento, Evento nuovo) throws ConnectException {
-		Map<String, String> campiModificati = new TreeMap<>();
-		List<Integer> lista = new ArrayList<>();
-		if (!evento.nome().equals(nuovo.nome()) & nuovo.nome() != "")
-			campiModificati.put("nome", nuovo.nome());
-		if (!evento.descrizione().equals(nuovo.descrizione()) & nuovo.descrizione() != "")
-			campiModificati.put("descrizione", nuovo.descrizione());
-		if (!evento.categoria().equals(nuovo.categoria()) & nuovo.categoria() != null)
-			campiModificati.put("categoria", "" + nuovo.categoria().getId() + "");
-		if (!evento.dataOra().equals(nuovo.dataOra()) & nuovo.dataOra() != null) {
-			controllaDataOra(nuovo.dataOra(), lista);
-			if (lista.size() == 0)
-				campiModificati.put("dataOra", nuovo.dataOra().toString());
-			else
-				lista.clear();
-		}
-		if (!evento.luogo().equals(nuovo.luogo()) & nuovo.luogo() != null) {
-			controllaLuogo(nuovo.luogo(), lista);
-			if (lista.size() == 0)
-				campiModificati.put("luogo", nuovo.luogo().toString());
-			else
-				lista.clear();
-		}
-		if (evento.minPartecipanti() != nuovo.minPartecipanti()
-				|| evento.maxPartecipanti() != nuovo.maxPartecipanti()) {
-			controllaLuogo(nuovo.luogo(), lista);
-			if (lista.size() != 0)
-				lista.clear();
-			else {
-				campiModificati.put("minPartecipanti", nuovo.minPartecipanti().toString());
-				campiModificati.put("maxPartecipanti", nuovo.maxPartecipanti().toString());
-			}
-		}
-		if (campiModificati.size() != 0)
-			lista.add(this.registratore.modificaVeronica(nuovo.id(), campiModificati) ? -1 : 0);
-		return lista;
-	}
-
 	/**
 	 * Incarica il backend ad inviare una notifica a tutti i partecipanti
 	 * dell'evento passato, contenente il testo passato

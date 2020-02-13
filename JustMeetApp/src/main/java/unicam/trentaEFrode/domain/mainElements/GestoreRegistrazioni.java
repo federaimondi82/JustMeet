@@ -70,9 +70,7 @@ public class GestoreRegistrazioni extends Gestore{
 	 * @throws ConnectException 
 	 */
 	private boolean controllaEmail(String email) throws ConnectException {
-		//TODO migliorare, ora ritorna sempre false
-		return ! ConnectBackEnd.getInstance().restRequest("/utenti/", "GET",email);
-		
+		return Boolean.getBoolean(ConnectBackEnd.getInstance().restRequest("/utenti/" + email, "GET"));		
 	}
 	
 	/**
