@@ -13,6 +13,8 @@ import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 class TestUseCaseConfermaPartecipazione {
 
+	
+	//TODO IMPLEMENTARE ANCHE DIsdii partecipazione????
 	@Test
 	void testConfermaPartecipazione() {
 		// Per semplicità scegliamo un evento casuale presente nel database.
