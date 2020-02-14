@@ -2,7 +2,10 @@ package unicam.trentaEFrode.domain.mainElements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import unicam.trentaEFrode.domain.parsers.ParserEventi;
+import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 import unicam.trentaEFrode.exceptions.EventoPresente;
 
 
@@ -19,17 +22,10 @@ public class Agenda {
 	private List<Evento> eventi;
 		
 	/**
-	 * Flag per sapere se l'event manager e' connesso alla rete
-	 * TODO Aggiungere descrizione piu chiara
-	 */
-	private boolean connesso;
-
-	/**
 	 * Crea un'agenda vuota
 	 */
 	public Agenda() {
 		this.eventi = new ArrayList<>();
-		this.connesso = false;
 	}
 	
 
@@ -39,29 +35,34 @@ public class Agenda {
 	 * Ritorna false se l'evento e' gie' presente.
 	 * @throws EventoPresente
 	 */
-	public void aggiungiEvento(Evento evento) throws EventoPresente {
-		for(Evento e: eventi) if(evento.nome().equals(e.nome())) throw new EventoPresente();
-		eventi.add(evento);
+	public boolean aggiungiEvento(int idEvento) {
+		return eventi.add(ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/" + idEvento, "GET")).get(0));
 	}
 	
 	/**
 	 * Ritorna la lista degli eventi
 	 */
-	public List<Evento> eventi() {
+	public List<Evento> getEventi() {
+		if(eventi.size() == 0 ) eventi = ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET"));
 		return this.eventi;
 	}
-	
-	/**
-	 * @return the sendEvents
-	 */
-	public boolean connesso() {
-		return connesso;
+
+
+	public void carica(List<Evento> eventi) {
+		this.eventi = eventi;
 	}
 
-	/**
-	 * the sendEvents to set
-	 */
-	public void cambiaConnesso() {
-		this.connesso = !connesso;
+
+
+	public boolean cancella(int id) {
+		boolean result = Boolean.getBoolean(ConnectBackEnd.getInstance().restRequest("/eventi/cancella/" + id, "DELETE"));
+		if(result) result = eventi.removeIf(e -> e.id() == id);
+		return result;
+	}
+
+
+
+	public boolean esiste(int idEvento) {
+		return eventi.stream().filter(e -> e.id() == idEvento).count() > 0;		 
 	}
 }

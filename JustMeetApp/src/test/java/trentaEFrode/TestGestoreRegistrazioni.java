@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
@@ -60,12 +59,7 @@ class TestGestoreRegistrazioni {
 		DocuDiRegis docu = new DocuDiRegis("", "", "", "", "", "", null, "", "");
 		List<Integer> errori = new ArrayList<Integer>();
 		errori.add(1);
-		try {
-			assertEquals(errori, reg.effettuaControlli(docu));
-		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals(errori, reg.effettuaControlli(docu));
 	}
 	
 	@Test
@@ -75,11 +69,7 @@ class TestGestoreRegistrazioni {
 		errori.add(1);
 		errori.add(6);
 		errori.add(2);
-		try {
-			assertEquals(errori, reg.effettuaControlli(docu));
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}
+		assertEquals(errori, reg.effettuaControlli(docu));
 	}
 	
 	@Test
@@ -87,12 +77,7 @@ class TestGestoreRegistrazioni {
 		DocuDiRegis docu = new DocuDiRegis("Mario", "", "mariorossi@email.it", "", "abc", "ab", LocalDate.of(2011, Month.MARCH, 3), "aaa", "Roma");
 		List<Integer> errori = new ArrayList<Integer>();
 		errori.add(5);
-		try {
-			assertEquals(errori, reg.effettuaControlli(docu));
-		} catch (ConnectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals(errori, reg.effettuaControlli(docu));
 	}
 	
 	@Test
@@ -173,22 +158,14 @@ class TestGestoreRegistrazioni {
 	@Test
 	public final void test_registrazione_annoNascitaNonValido() {
 		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi2@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
-		try {
-			assertFalse(Registratore.getInstance().registra(docu));
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}
+		assertFalse(Registratore.getInstance().registra(docu));
 	}
 	
 	@Test
 	public final void test_nickExists() {
 		
 		String value = null;
-		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/nickname/marione", "GET");
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}		
+		value = ConnectBackEnd.getInstance().restRequest("/utenti/nickname/marione", "GET");		
 		assertTrue(Boolean.parseBoolean(value));
 	}
 	
@@ -196,11 +173,7 @@ class TestGestoreRegistrazioni {
 	public final void test_autenticazione() {
 		
 		String value = "";
-		try {
-			value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}
+		value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
 
 		System.out.println("test autenticazione 205" + value);
 		ParserUser.getInstance().parseUtenteFromServer(value);

@@ -37,7 +37,7 @@ public class Registratore {
 	 * @return Ritorna true se la registrazione e' andata a buon fine; false altrimenti.
 	 * @throws ConnectException 
 	 */
-	public boolean registra(DocuDiRegis docu) throws ConnectException {
+	public boolean registra(DocuDiRegis docu) {
 		return ConnectBackEnd.getInstance().restRequest("/utenti/", "POST", docu.toString());
 		
 	}

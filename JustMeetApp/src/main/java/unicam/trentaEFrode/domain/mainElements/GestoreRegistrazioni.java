@@ -34,7 +34,7 @@ public class GestoreRegistrazioni extends Gestore{
 	 * @return la lista dei codici che identificano il risultato dei controlli.
 	 * @throws ConnectException 
 	 * */
-	public List<Integer> effettuaControlli(DocuDiRegis docu) throws ConnectException{
+	public List<Integer> effettuaControlli(DocuDiRegis docu){
 		String nome = docu.getNome();
 		String cognome = docu.getCognome();
 		String email = docu.getEmail();
@@ -69,7 +69,7 @@ public class GestoreRegistrazioni extends Gestore{
 	 * @return ritorna true se l'email e' gia' nel database, altriemnti false
 	 * @throws ConnectException 
 	 */
-	private boolean controllaEmail(String email) throws ConnectException {
+	private boolean controllaEmail(String email){
 		return Boolean.getBoolean(ConnectBackEnd.getInstance().restRequest("/utenti/" + email, "GET"));		
 	}
 	
@@ -90,7 +90,7 @@ public class GestoreRegistrazioni extends Gestore{
 	 * @param nomeAlgoritmo: il nome dell'algoritmo di cifratura da usare.
 	 * @return la password cifrata se @nomeAlgoritmo e' valido, null altrimenti.
 	 */
-	public static String codificaPassword(String password, String nomeAlgoritmo){
+	public String codificaPassword(String password, String nomeAlgoritmo){
 		MessageDigest md;
 		try {
 			md = MessageDigest.getInstance(nomeAlgoritmo);

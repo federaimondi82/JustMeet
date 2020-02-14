@@ -3,16 +3,13 @@ package unicam.trentaEFrode.domain.mainElements;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import unicam.trentaEFrode.Setup;
 
 /**
- * Mette a dispsizione dei metodi per l'invio di chimate REST veros la parte backend
+ * Mette a dispsizione dei metodi per l'invio di chimate REST verso la parte backend
  * E' interfaccia verso l'esterno per la parte front end
  * @author feder
  *
@@ -27,7 +24,6 @@ public class ConnectBackEnd {
 	private URL url;
 	private HttpURLConnection con;
 	private BufferedReader br;
-	private String line;
 	
 	
 	private ConnectBackEnd() {
@@ -93,7 +89,7 @@ public class ConnectBackEnd {
 	 * @param method il metodo http da applicare
 	 * @return ritorna la risposta dal server
 	 */
-	public String restRequest(String path, String method) throws ConnectException {
+	public String restRequest(String path, String method){
 		
 		//prima della chiamata REST al server viene testata la connessione
 		//Setup.getInstance().check_connection();
@@ -116,7 +112,6 @@ public class ConnectBackEnd {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("connect backend 112 GET ops è scattata l'eccezione!!!!!");
-
 		}
 		
 		System.out.println("connect backend 116 GET = " + s);

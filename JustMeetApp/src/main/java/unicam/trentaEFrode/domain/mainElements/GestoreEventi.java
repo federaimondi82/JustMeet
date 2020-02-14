@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import unicam.trentaEFrode.domain.parsers.Parser;
+import unicam.trentaEFrode.domain.parsers.ParserEventi;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 public class GestoreEventi extends Gestore {
@@ -35,7 +36,7 @@ public class GestoreEventi extends Gestore {
 	 * @return la lista dei codici corrispondenti alle risposte dei controlli.
 	 * @throws ConnectException
 	 */
-	public List<Integer> effettuaControlli(Evento evento) throws ConnectException {
+	public List<Integer> effettuaControlli(Evento evento) {
 		String nome = evento.nome();
 		GregorianCalendar dataOra = evento.dataOra();
 		Integer min = evento.minPartecipanti();
@@ -122,14 +123,13 @@ public class GestoreEventi extends Gestore {
 		return null;
 	}
 
-	public List<Integer> confermaEvento(Evento evento) throws ConnectException {
+	public List<Integer> confermaEvento(Evento evento) {
 		evento.setConfermato(true);
-		return modificaFederico(evento);
 	}
 
 	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, GregorianCalendar giorno,
 			String citta, String provincia) {
-		String listaEventi;
+		String listaEventi="";
 		if (primoAccesso) { // se è il primo accesso mi baso sulle informazioni dell’utente: interessi,
 							// città, provincia
 			UtenteRegistrato u = UtenteRegistrato.getInstance();
@@ -147,6 +147,10 @@ public class GestoreEventi extends Gestore {
 			} else cerca(true, "", "", null, "", ""); // l’utente ha cliccato cerca senza specificare i filtri. si									
 			// considera il gesto come un refresh della pagina.
 		}
-		return Parser.getInstance().parseEventi(listaEventi);
+		return ParserEventi.getInstance().parseEventi(listaEventi);
+	}
+
+	public boolean partecipa(int idEvento, int idUtente) {
+		return ConnectBackEnd.getInstance().restRequest("/partecipa/", "POST", idEvento +":" + idUtente);
 	}
 }

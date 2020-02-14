@@ -35,6 +35,7 @@ class TestUseCaseModificaEvento {
 		nuovaData.add(GregorianCalendar.MONTH, 2);
 		e.cambiaDataOra(nuovaData);
 		//Step 4: confermo le modifiche
+		//TODO Partire da UtenteRegistrato
 		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(e);
 		assertEquals(1, risposta.size());
 		assertEquals(new Integer(-1), risposta.get(0));

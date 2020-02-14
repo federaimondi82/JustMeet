@@ -5,7 +5,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import unicam.trentaEFrode.domain.mainElements.Categoria;
-import unicam.trentaEFrode.domain.mainElements.RegistroStatico;
+import unicam.trentaEFrode.domain.mainElements.Evento;
+import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
 
 
 public class UtenteRegistrato implements Utente {
@@ -22,6 +23,8 @@ public class UtenteRegistrato implements Utente {
 	private String cap;
 	private String provincia;
 	private List<Categoria> interessi;
+	private Organizzatore organizzatore;
+	private Partecipante partecipante;
 	
 	
 	private static UtenteRegistrato utente;
@@ -32,7 +35,8 @@ public class UtenteRegistrato implements Utente {
 	}
 		
 	private UtenteRegistrato() {	
-		
+		this.organizzatore = null;
+		this.partecipante = null;
 	}
 	
 
@@ -195,6 +199,25 @@ public class UtenteRegistrato implements Utente {
 		return provincia;
 	}
 
-	
+	public Organizzatore getOrganizzatore() {
+		return organizzatore;
+	}
 
+	public List<Integer> creaEvento(Evento evento) {
+		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(evento);
+		if(risposta.get(0) == -1) { // se è andato tutto bene
+			if(organizzatore == null) this.organizzatore = new Organizzatore();
+			risposta.clear();
+			risposta.add(this.organizzatore.aggiungiEvento(evento)?-1:0);
+		}
+		return risposta;
+	}
+
+	public boolean partecipa(int idEvento) {
+		if(partecipante == null) partecipante = new Partecipante();
+		else if(partecipante.esiste(idEvento)) return false;
+		boolean risposta = GestoreEventi.getInstance().partecipa(idEvento, id);
+		if(risposta) risposta = partecipante.partecipa(idEvento);
+		return risposta;
+	}
 }
