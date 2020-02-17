@@ -1,13 +1,16 @@
 package unicam.trentaEFrode.domain.users;
 
+import java.util.List;
+
 import unicam.trentaEFrode.domain.mainElements.Agenda;
+import unicam.trentaEFrode.domain.mainElements.Evento;
 
 public class Partecipante implements Ruolo{
 
 	private Agenda agenda;
 
 	public Partecipante() {
-		agenda = new Agenda();
+		this.agenda = new Agenda(this);
 	}
 	
 	public boolean partecipa(int idEvento) {
@@ -16,6 +19,10 @@ public class Partecipante implements Ruolo{
 
 	public boolean esiste(int idEvento) {
 		return agenda.esiste(idEvento);
+	}
+
+	public List<Evento> getEventi() {
+		return agenda.getEventi();
 	}
 	
 }

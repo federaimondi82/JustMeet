@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import unicam.trentaEFrode.domain.parsers.Parser;
 import unicam.trentaEFrode.domain.parsers.ParserEventi;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
+/**
+ * Classe decicata ai controlli degli eventi.
+ * */
 public class GestoreEventi extends Gestore {
 
 	private static GestoreEventi instance = null;
@@ -123,34 +122,26 @@ public class GestoreEventi extends Gestore {
 		return null;
 	}
 
-	public List<Integer> confermaEvento(Evento evento) {
-		evento.setConfermato(true);
-	}
-
-	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, GregorianCalendar giorno,
-			String citta, String provincia) {
-		String listaEventi="";
-		if (primoAccesso) { // se è il primo accesso mi baso sulle informazioni dell’utente: interessi,
-							// città, provincia
-			UtenteRegistrato u = UtenteRegistrato.getInstance();
-			listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/null:{" + u.toStringInteressi()+ "}:{null}:{" + u.getCitta() + "}:{" + u.getProvincia() + "}", "GET");
-		} else {
-			if (parola == "") parola = "null";
-			if (categoria == "") categoria = "null";
-			if (citta == "") citta = "null";
-			if (provincia == "") provincia = "null";
-			// il seguente controllo evita di effettuare una ricerca senza che l'utente
-			// abbia inserito filtri.
-			if (!(giorno == GregorianCalendar.getInstance() & parola == "null" & categoria == "null" & citta == "null"
-					& provincia == "null")) {
-				listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/{" + parola + "}:{" + categoria + "}:{"+ giorno + "}:{" + citta + "}:{" + provincia + "}", "GET");
-			} else cerca(true, "", "", null, "", ""); // l’utente ha cliccato cerca senza specificare i filtri. si									
-			// considera il gesto come un refresh della pagina.
-		}
+	public List<Evento> cerca(String parola, String categoria, String citta, String provincia, GregorianCalendar da, GregorianCalendar a, int idUtente) {
+		String date = controllaDate(da, a);
+		String listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/{" + parola + "}:{" + categoria + "}:{" + citta + "}:{" + provincia + "}:" + date + ":{" + idUtente + "}", "GET");
 		return ParserEventi.getInstance().parseEventi(listaEventi);
 	}
 
-	public boolean partecipa(int idEvento, int idUtente) {
-		return ConnectBackEnd.getInstance().restRequest("/partecipa/", "POST", idEvento +":" + idUtente);
+	private String controllaDate(GregorianCalendar da, GregorianCalendar a) {
+		GregorianCalendar oggi = new GregorianCalendar();
+		if(a.before(da)) {
+			GregorianCalendar app = a;
+			a = da;
+			da = app;
+		}
+		if(da.before(oggi)) da = oggi;
+		if(a.before(oggi)) {
+			a = oggi;
+			a.add(Calendar.DAY_OF_MONTH, 7);
+		}  
+		return "{"+ da.get(Calendar.YEAR) + ":" +da.get(Calendar.MONTH)+1 + ":" + da.get(Calendar.DAY_OF_MONTH) + "}:{" +
+				a.get(Calendar.YEAR) + ":" +a.get(Calendar.MONTH)+1 + ":" + a.get(Calendar.DAY_OF_MONTH) + "}";
 	}
+
 }

@@ -1,9 +1,12 @@
 package unicam.trentaEFrode.domain.mainElements;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import unicam.trentaEFrode.exceptions.CategoriaInesistente;
 
 public class Evento {
 	
@@ -87,7 +90,38 @@ public class Evento {
 			Integer maxPartecipanti, 
 			String descrizione, 
 			Integer durata, 
-			Luogo luogo, 
+			String nomeLuogo, 
+			String indirizzo, 
+			String numeroCivico, 
+			String cap, 
+			String citta, 
+			String provincia,
+			String categoria
+			) {
+		this.id = -1;
+		this.nome = nome;
+		this.dataOra = dataOra;
+		this.minPartecipanti = minPartecipanti;
+		this.maxPartecipanti = maxPartecipanti;
+		this.descrizione = descrizione;
+		this.durata = durata;
+		this.luogo = new Luogo(nomeLuogo, indirizzo, numeroCivico, cap, citta, provincia);
+		try {
+			this.categoria = RegistroCategorie.getInstance().getCategoria(categoria);
+		} catch (ConnectException | CategoriaInesistente e) {
+			e.printStackTrace();
+		}
+		this.partecipanti = new ArrayList<>();
+	}
+
+	public Evento(
+			String nome, 
+			GregorianCalendar dataOra, 
+			Integer minPartecipanti, 
+			Integer maxPartecipanti, 
+			String descrizione, 
+			Integer durata, 
+			Luogo luogo,
 			Categoria categoria
 			) {
 		this.id = -1;
@@ -101,7 +135,7 @@ public class Evento {
 		this.categoria = categoria;
 		this.partecipanti = new ArrayList<>();
 	}
-
+	
 	/**
 	 * Construttore con un parametro iniziale
 	 * */

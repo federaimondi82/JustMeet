@@ -106,6 +106,7 @@ public class ConnectBackEnd {
 			this.br=new BufferedReader(new InputStreamReader(this.con.getInputStream()));
 			
 			s=this.br.readLine();
+			System.out.println("connect backend 109 assegnamento di s  GET = " + s);
 
 			this.con.disconnect();
 			

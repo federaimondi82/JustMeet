@@ -1,13 +1,9 @@
 package unicam.trentaEFrode.domain.mainElements;
 
 import java.net.ConnectException;
-import java.util.Map;
-
-import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
- * Classe per inviare i dati al lato backend per quanto riguarda la regitrazione di dati
- * @author feder
+ * Classe per inviare i dati al lato backend per quanto riguarda la regitrazione di dati.
  *
  */
 public class Registratore {
@@ -39,7 +35,14 @@ public class Registratore {
 	 */
 	public boolean registra(DocuDiRegis docu) {
 		return ConnectBackEnd.getInstance().restRequest("/utenti/", "POST", docu.toString());
-		
+	}
+	
+	/**
+	 * Registra nel database la partecipazione dell'utente con id idUtente all'evento con id idEvento.
+	 * @
+	 * */
+	public boolean registraPartecipazione(int idEvento, int idUtente) {
+		return ConnectBackEnd.getInstance().restRequest("/partecipa/", "POST", idEvento +":" + idUtente);
 	}
 }
 

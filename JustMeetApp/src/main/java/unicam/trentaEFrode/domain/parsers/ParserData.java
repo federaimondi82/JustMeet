@@ -23,9 +23,9 @@ public class ParserData {
 	public GregorianCalendar parsaDataDiNascita(String json) {
 		//costruisce una istanza per la data di nascita
 		json=json.substring(1, json.length()-1);
-		int gg=Integer.parseInt(String.valueOf(json.split("/")[0]));
-		int mm=Integer.parseInt(json.split("/")[1]);
-		int aaaa=Integer.parseInt(json.split("/")[2]);
+		int gg=Integer.parseInt(String.valueOf(json.split("-")[0]));
+		int mm=Integer.parseInt(json.split("-")[1]);
+		int aaaa=Integer.parseInt(json.split("-")[2]);
 		return new GregorianCalendar(aaaa, mm, gg);
 	}
 	

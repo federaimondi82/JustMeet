@@ -1,6 +1,5 @@
 package trentaEFrode;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
@@ -10,7 +9,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ConnectException;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -25,13 +23,12 @@ public class TestStart {
 	@Test
 	public final void testConnessione(){
 					
-		boolean s1=false;
 
 		String s="";
 		try {
 			s = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
 			
-			s1=Boolean.parseBoolean(s);		
+			assertTrue(Boolean.parseBoolean(s));		
 			
 			System.out.println("connessione ok");
 			

@@ -7,6 +7,7 @@ import java.util.List;
 import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.Evento;
 import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
+import unicam.trentaEFrode.domain.mainElements.Registratore;
 
 
 public class UtenteRegistrato implements Utente {
@@ -30,23 +31,26 @@ public class UtenteRegistrato implements Utente {
 	private static UtenteRegistrato utente;
 	
 	public static UtenteRegistrato getInstance() {
-		if(utente==null) utente=new UtenteRegistrato();
+		if(utente==null) utente = new UtenteRegistrato();
 		return utente;
 	}
 		
-	private UtenteRegistrato() {	
-		this.organizzatore = null;
-		this.partecipante = null;
-	}
-	
-
+	//private UtenteRegistrato() {}
 	
 	/*INIZIO semi builder*/
 
 	public UtenteRegistrato id(int id) {
 		this.id=id;
+		inizializza();
 		return this;
 	}
+	
+	private void inizializza() {
+		//TODO PRENDERE I DATI DELL'UTENTE DAL DB
+		this.organizzatore = new Organizzatore();
+		this.partecipante = new Partecipante();
+	}
+
 	public UtenteRegistrato nome(String nome) {
 		this.nome=nome;
 		return this;
@@ -202,22 +206,61 @@ public class UtenteRegistrato implements Utente {
 	public Organizzatore getOrganizzatore() {
 		return organizzatore;
 	}
+	
+	public Partecipante getPartecipante() {
+		return partecipante;
+	}
 
-	public List<Integer> creaEvento(Evento evento) {
+	public List<Integer> creaEvento(
+			String nome, 
+			GregorianCalendar dataOra, 
+			Integer minPartecipanti, 
+			Integer maxPartecipanti, 
+			String descrizione, 
+			Integer durata, 
+			String nomeLuogo, 
+			String indirizzo, 
+			String numeroCivico, 
+			String cap, 
+			String citta, 
+			String provincia,		
+			String categoria
+			) {
+		Evento evento = new Evento(nome, dataOra, minPartecipanti, maxPartecipanti, descrizione, durata, nomeLuogo, indirizzo, numeroCivico, cap, citta, provincia, categoria);
+		evento.setOrganizzatore(this.id);
 		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(evento);
 		if(risposta.get(0) == -1) { // se è andato tutto bene
 			if(organizzatore == null) this.organizzatore = new Organizzatore();
 			risposta.clear();
 			risposta.add(this.organizzatore.aggiungiEvento(evento)?-1:0);
 		}
+		System.out.println("ur 220 risposta[0] =" + risposta.get(0));
 		return risposta;
 	}
 
 	public boolean partecipa(int idEvento) {
 		if(partecipante == null) partecipante = new Partecipante();
 		else if(partecipante.esiste(idEvento)) return false;
-		boolean risposta = GestoreEventi.getInstance().partecipa(idEvento, id);
+		boolean risposta = Registratore.getInstance().registraPartecipazione(idEvento, id);
 		if(risposta) risposta = partecipante.partecipa(idEvento);
 		return risposta;
+	}
+
+	public boolean isOrganizzatore() {
+		return !organizzatore.getEventi().isEmpty();
+	}
+
+	public boolean isPartecipante() {
+		return !partecipante.getEventi().isEmpty();
+	}
+
+	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, String citta, String provincia, GregorianCalendar inizio, GregorianCalendar fine) {
+		GregorianCalendar da = new GregorianCalendar();
+		GregorianCalendar a = new GregorianCalendar();
+		a.add(Calendar.DAY_OF_MONTH, 7);
+		return primoAccesso?
+				GestoreEventi.getInstance().cerca("", "", "", "", da, a, this.id):
+				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, da, a, this.id);
+
 	}
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-import unicam.trentaEFrode.domain.parsers.ParserUser;
 import unicam.trentaEFrode.domain.parsers.ParserCategorie;
 import unicam.trentaEFrode.exceptions.CategoriaInesistente;
 
@@ -30,6 +29,9 @@ public class RegistroCategorie {
 	
 	private RegistroCategorie() throws ConnectException {
 		this.categorie = caricaCategorie();
+		
+		System.out.println(" registro categorie 33 categorie.get(3).nome() " + categorie.get(3).nome());
+		
 		this.interessi=new ArrayList<>();
 	}
 	
@@ -55,6 +57,9 @@ public class RegistroCategorie {
 	 */
 	public List<Categoria> caricaCategorie() throws ConnectException {
 		String s=ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
+		
+		System.out.println("registro categorie 58 s = " + s);
+		
 		return ParserCategorie.getInstance().parseCategorieFromServer(s);
 	}
 	
@@ -72,7 +77,10 @@ public class RegistroCategorie {
 	}
 	
 	public Categoria getCategoria(String nome) throws CategoriaInesistente {
-		for(Categoria c:categorie) if(c.nome()==nome) return c;
+		
+		System.out.println("registro categorie 81 nome cercato = " + nome);
+		
+		for(Categoria c:categorie) if(c.nome().equals(nome)) return c;
 		throw new CategoriaInesistente();
 	}
 	

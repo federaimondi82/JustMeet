@@ -1,37 +1,39 @@
 package unicam.trentaEFrode.domain.users;
 
-import java.net.ConnectException;
+import java.util.List;
 
 import unicam.trentaEFrode.domain.mainElements.Agenda;
-import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.Evento;
-import unicam.trentaEFrode.domain.parsers.Parser;
-import unicam.trentaEFrode.domain.parsers.ParserEventi;
-import unicam.trentaEFrode.exceptions.EventoPresente;
 
+/*
+ * L'organizzatore è un ruolo che permette all'utente registrato di gestire gli eventi organizzati.
+ * */
 public class Organizzatore implements Ruolo{
 	
 	private Agenda agenda;
 	
 	public Organizzatore() {
-		this.agenda = new Agenda();
+		this.agenda = new Agenda(this);
 	}
 	
 	public Agenda getAgenda() {
-		if(agenda == null) {
-			agenda = new Agenda();
-			agenda.carica(ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET")));
-			
-		} 
-		return agenda;
+		return this.agenda;
 	}
 	
 	public boolean aggiungiEvento(Evento evento){
-		return agenda.aggiungiEvento(evento);
+		return this.agenda.aggiungiEvento(evento);
 	}
 
 	public boolean cancellaEvento(int id) {
-		return agenda.cancella(id);
+		return this.agenda.cancella(id);
+	}
+
+	public List<Integer> modificaEvento(Evento evento) {
+		return this.agenda.modificaEvento(evento);
+	}
+
+	public List<Evento> getEventi() {
+		return this.agenda.getEventi();
 	}
 
 }

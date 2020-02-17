@@ -1,8 +1,6 @@
 package unicam.trentaEFrode.domain.mainElements;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Oggetto indispensabile per la registrazione; viene passato al Registratore che ne effettua i controlli; oggetto che consente all'utente non registrato di inserire i propri dati.
@@ -162,9 +160,6 @@ public class DocuDiRegis {
 		return this;
 	}
 	
-	
-
-
 	@Override
 	public String toString() {
 		return "" + nome + ":" + cognome + ":" + email + ":" + nickname

@@ -2,7 +2,6 @@ package trentaEFrode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.net.ConnectException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +17,7 @@ class TestCategorie {
 	@Test
 	void testLoadCategorie() {
 		String s="";
-		try {
-			s = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}
+		s = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
 		System.out.println(s);
 		
 		List<Categoria> l=ParserCategorie.getInstance().parseCategorieFromServer(s);
