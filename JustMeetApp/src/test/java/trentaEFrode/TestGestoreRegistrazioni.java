@@ -56,7 +56,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	void testEffettuaControlliCampiVuoti() {
-		DocuDiRegis docu = new DocuDiRegis("", "", "", "", "", "", null, "", "");
+		DocuDiRegis docu = new DocuDiRegis("", "", "", "", "", "", null, "", "", "");
 		List<Integer> errori = new ArrayList<Integer>();
 		errori.add(1);
 		assertEquals(errori, reg.effettuaControlli(docu));
@@ -64,7 +64,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	void testEffettuaControlliMoltepliciErrori() {
-		DocuDiRegis docu = new DocuDiRegis("", "", "", "", "abc", "ab", null, "aaa", "");
+		DocuDiRegis docu = new DocuDiRegis("", "", "", "", "abc", "ab", null, "aaa", "", "");
 		List<Integer> errori = new ArrayList<Integer>();
 		errori.add(1);
 		errori.add(6);
@@ -74,7 +74,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	void testEffettuaControlliMoltepliciErroriEUtenteMinorenne() {
-		DocuDiRegis docu = new DocuDiRegis("Mario", "", "mariorossi@email.it", "", "abc", "ab", LocalDate.of(2011, Month.MARCH, 3), "aaa", "Roma");
+		DocuDiRegis docu = new DocuDiRegis("Mario", "", "mariorossi@email.it", "", "abc", "ab", LocalDate.of(2011, Month.MARCH, 3), "aaa", "Roma", "");
 		List<Integer> errori = new ArrayList<Integer>();
 		errori.add(5);
 		assertEquals(errori, reg.effettuaControlli(docu));
@@ -111,7 +111,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	public final void test_registraUtenteTrue() {
-		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", String.valueOf((int)(Math.random()*10000))+"@email.it", String.valueOf((int)(Math.random()*10000)), "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
+		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", String.valueOf((int)(Math.random()*10000))+"@email.it", String.valueOf((int)(Math.random()*10000)), "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma", "RM");
 		docu.setInteressi("1_2_");
 
 		URL url=null;
@@ -134,7 +134,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	public final void test_registraUtenteFalse() {
-		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
+		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma", "");
 		
 		URL url=null;
 		HttpURLConnection con=null;
@@ -157,7 +157,7 @@ class TestGestoreRegistrazioni {
 	
 	@Test
 	public final void test_registrazione_annoNascitaNonValido() {
-		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi2@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma");
+		DocuDiRegis docu = new DocuDiRegis("Mario", "Rossi", "mariorossi2@email.it", "marione", "abc", "abc", LocalDate.of(2011, Month.MARCH, 3), "06", "Roma", "RM");
 		assertFalse(Registratore.getInstance().registra(docu));
 	}
 	
@@ -172,14 +172,12 @@ class TestGestoreRegistrazioni {
 	@Test
 	public final void test_autenticazione() {
 		
-		String value = "";
-		value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
-
-		System.out.println("test autenticazione 205" + value);
+		String value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
+		System.out.println("test autenticazione 205 " + value);
 		ParserUser.getInstance().parseUtenteFromServer(value);
 		assertEquals(UtenteRegistrato.getInstance().getNome(), "Mario");
 		assertEquals(UtenteRegistrato.getInstance().getCognome(), "Rossi");
-		assertTrue(UtenteRegistrato.getInstance().getDataDiNascita().equals(new GregorianCalendar(2000, 20, 20)));
+		assertTrue(UtenteRegistrato.getInstance().getDataDiNascita().equals(new GregorianCalendar(2000, 01, 02)));
 
 	}
 	

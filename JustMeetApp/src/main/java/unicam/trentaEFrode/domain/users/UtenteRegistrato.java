@@ -92,6 +92,10 @@ public class UtenteRegistrato implements Utente {
 		return this;
 	}
 	
+	public UtenteRegistrato provincia(String provincia) {
+		this.provincia = provincia;
+		return this;
+	}
 	/*FINE semi builder*/
 
 
@@ -272,4 +276,5 @@ public class UtenteRegistrato implements Utente {
 				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, inizio, fine, this.id);
 
 	}
+
 }

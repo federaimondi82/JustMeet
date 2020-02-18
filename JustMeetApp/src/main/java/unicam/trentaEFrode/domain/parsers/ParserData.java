@@ -20,12 +20,11 @@ public class ParserData {
 	 * @param json
 	 * @return
 	 */
-	public GregorianCalendar parsaDataDiNascita(String json) {
-		//costruisce una istanza per la data di nascita
-		json=json.substring(1, json.length()-1);
-		int gg=Integer.parseInt(String.valueOf(json.split("-")[0]));
-		int mm=Integer.parseInt(json.split("-")[1]);
-		int aaaa=Integer.parseInt(json.split("-")[2]);
+	public GregorianCalendar parsaData(String json) {
+		String[] arr = json.split("-");
+		int gg = Integer.parseInt(arr[2]);
+		int mm = Integer.parseInt(arr[1]);
+		int aaaa=Integer.parseInt(arr[0]);
 		return new GregorianCalendar(aaaa, mm, gg);
 	}
 	

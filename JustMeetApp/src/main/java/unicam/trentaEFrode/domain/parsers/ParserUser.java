@@ -1,10 +1,6 @@
 package unicam.trentaEFrode.domain.parsers;
 
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
-
-import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 
@@ -29,34 +25,16 @@ public class ParserUser {
 		/**
 		 * Ritorna una cosa tipo:
 		 * 
-		 *{"id":23,"nome":"Mario","cognome":"Rossi","email":"6133@email.it","nickname":"2964",
-		 *"password":"abc","ripetiPassword":"abc","dataDiNascita":"20/20/2000","citta":"Roma",
-		 *"cap":"6","interessi":"{1.sport.calcio_2.sport.pallavolo}"}
-		 * */		
-		//eleminazione di alcuni caratteri inutili all'inizio,alla fine o dentro la stringa
-		String s1=value.substring(1, value.length()-1);//elimina le parentesi di inizio e fine						
-		String[] json=s1.split(",");
+		 *2:Mario:Rossi:mariorossi@email.it:marione:abc:abc:2000-01-02:Ascoli Piceno:6:AP:
+		 * */	
 		
-		System.out.println(s1);
-		
-		GregorianCalendar dataNascita=ParserData.getInstance().parsaDataDiNascita(json[7].split(":")[1]);
-
-
-		List<Categoria> interessi=ParserCategorie.getInstance().parseCategorieFromServer(json[10]);	
-		
-		UtenteRegistrato.getInstance().id(Integer.parseInt(json[0].split(":")[1]))
-			.nome(json[1].split(":")[1].substring(1, json[1].split(":")[1].length()-1))
-			.cognome(json[2].split(":")[1].substring(1, json[2].split(":")[1].length()-1))
-			.email(json[3].split(":")[1].substring(1, json[3].split(":")[1].length()-1))
-			.nickname(json[4].split(":")[1].substring(1, json[4].split(":")[1].length()-1))
-			.password(json[5].split(":")[1].substring(1, json[5].split(":")[1].length()-1))
-			.ripetiPassword(json[6].split(":")[1].substring(1, json[6].split(":")[1].length()-1))
-			.dataDiNascita(dataNascita)
-			.citta(json[8].split(":")[1].substring(1, json[8].split(":")[1].length()-1))
-			.cap(json[9].split(":")[1].substring(1, json[9].split(":")[1].length()-1))		
-			.interessi(interessi);
-		
-		
+		System.out.println("value parse user 36 = " + value);
+		String[] arr = value.split(":");
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+		for(int i = 0; i < arr.length ; i ++) System.out.println(arr[i]);
+		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");		
+		UtenteRegistrato.getInstance().id(Integer.parseInt(arr[0])).
+		nome(arr[1]).cognome(arr[2]).email(arr[3]).nickname(arr[4]).password(arr[5]).dataDiNascita(ParserData.getInstance().parsaData(arr[7])).citta(arr[8]).cap(arr[9]).provincia(arr[10]);
 		return UtenteRegistrato.getInstance();
 	}
 	
@@ -69,7 +47,6 @@ public class ParserUser {
 	 * @return L'unica istanza di utente resistarto, l'utente che sta usando l'applicazione lato client
 	 */
 	public void parseUtenteFromFile(String value){
-		//TODO modificare per gli interessi dell'utente	
 		try {
 			String[] user=value.split(",");
 			

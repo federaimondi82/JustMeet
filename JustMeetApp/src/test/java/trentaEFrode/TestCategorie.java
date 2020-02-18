@@ -26,18 +26,4 @@ class TestCategorie {
 		
 		assertNotNull(s);
 	}
-	
-	/*
-	@Test
-	void testMostraCategorie() {
-		//UtenteRegistrato u=new UtenteRegistrato();
-		/*u.getMieCategorie().retriveCatFromServer().stream().forEach(ele->{
-			System.out.println(ele.toString());
-		});
-		
-				
-		assertNotNull(UtenteRegistrato.getInstance().getMieCategorie().retriveCatFromServer().get(0));
-	}
-	*/
-
 }

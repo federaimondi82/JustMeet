@@ -74,7 +74,6 @@ class TestUseCaseRicerca {
 	
 	@Test
 	void testRicercaConParametri2() throws ConnectException {
-		//new TestUseCaseCreazioneEvento().testEventoValido();
 		List<Evento> eventiTrovati = utente.cerca(false, "null", "cibo", "null", "null", new GregorianCalendar(), null );
 		assertFalse(eventiTrovati.isEmpty());
 		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 2-----------------------------------");
@@ -83,7 +82,6 @@ class TestUseCaseRicerca {
 
 	@Test
 	void testRicercaConParametri3() throws ConnectException {
-		//new TestUseCaseCreazioneEvento().testEventoValido();
 		List<Evento> eventiTrovati = utente.cerca(false, "Pranzo", "null", "null", "null", null, new GregorianCalendar() );
 		assertFalse(eventiTrovati.isEmpty());
 		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 3-----------------------------------");

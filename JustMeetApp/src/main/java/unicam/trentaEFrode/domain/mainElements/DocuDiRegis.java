@@ -16,14 +16,14 @@ public class DocuDiRegis {
 	private LocalDate dataDiNascita;
 	private String cap;
 	private String citta;
-	
+	private String provincia;
 	private String interessi;
 
 	/**
 	 * Costruttore con parametri
 	 */
 	public DocuDiRegis(String nome, String cognome, String email,String nickname, String password, String ripetiPassword,
-			LocalDate dataDiNascita, String cap, String citta) {
+			LocalDate dataDiNascita, String cap, String citta, String provincia) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.email = email;
@@ -33,14 +33,13 @@ public class DocuDiRegis {
 		this.dataDiNascita = dataDiNascita;
 		this.cap = cap;
 		this.citta = citta;
+		this.provincia = provincia;
 	}
 
 	/**
 	 * Costruttore per il semibuilder
 	 */
-	public DocuDiRegis(){
-
-	}
+	public DocuDiRegis(){}
 
 	/**
 	 * @return the nome
@@ -164,6 +163,20 @@ public class DocuDiRegis {
 	public String toString() {
 		return "" + nome + ":" + cognome + ":" + email + ":" + nickname
 				+ ":" + password + ":" + ripetiPassword + ":" + dataDiNascita.toString()
-				+ ":" + cap + ":" + citta+":"+interessi+"";
+				+ ":" + cap + ":" + citta+":" + provincia + ":" +interessi+"";
+	}
+
+	/**
+	 * @return the provincia
+	 */
+	public String getProvincia() {
+		return provincia;
+	}
+
+	/**
+	 * @param provincia the provincia to set
+	 */
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
 	}
 }

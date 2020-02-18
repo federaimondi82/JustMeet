@@ -10,12 +10,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import unicam.trentaEFrode.domain.mainElements.Categoria;
-import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.Evento;
 import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
 import unicam.trentaEFrode.domain.mainElements.Luogo;
-import unicam.trentaEFrode.domain.mainElements.RegistroCategorie;
 
 
 class TestGestoreEventi {
@@ -39,18 +36,5 @@ class TestGestoreEventi {
 		errori.add(2);
 		errori.add(4);
 		assertEquals(errori, gest.effettuaControlli(e));		
-	}
-	
-	@Test
-	public final void sendNewEvento() throws ConnectException {
-		//istanze per la creazione dell'evento
-		Luogo luogo = new Luogo("bar", "viaTuring", String.valueOf((int)(Math.random()*10000)), "63100", "Ascoli", "AP");		
-		Categoria cat = RegistroCategorie.getInstance().categorie().get(1);//2:sport:pallavolo
-		GregorianCalendar data = new GregorianCalendar(2020, 1, 1, 11, 11);
-		
-		//istanza dell'evento da salvare
-		Evento evento = new Evento(String.valueOf((int)(Math.random()*10000)),data,10, 100,"festa",5,luogo,cat);		
-		boolean b=ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST",(evento.toString()+":"+"2"));
-		assertTrue(b);
 	}
 }

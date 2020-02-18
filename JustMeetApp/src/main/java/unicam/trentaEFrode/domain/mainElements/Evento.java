@@ -333,8 +333,8 @@ public class Evento {
 		
 		/*
 		 * {id}:{nome}:{aaaa}:{mm}:{gg}:{HH}:{MM}:{min}:"
-			+ "{max}:{descr}:{durata}:{nomeLuogo}:{citta}:{indirizzo}:{civico}:"
-			+ "{cap}:{prov}:{idCat}:{idUtente}"
+			+ "{max}:{descr}:{durata}:{nomeLuogo}:{indirizzo}:{civico}:"
+			+ "{cap}:{citta}:{prov}:{idCat}:{idUtente}"
 		 * */
 		
 		return id + ":" + nome.replace(" ", "_") + ":" + data + ":" + minPartecipanti

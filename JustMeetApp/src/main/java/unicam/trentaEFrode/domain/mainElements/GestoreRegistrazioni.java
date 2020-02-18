@@ -43,16 +43,20 @@ public class GestoreRegistrazioni extends Gestore{
 		String password2 = docu.getRipetiPassword();
 		String citta = docu.getcitta();
 		String cap = docu.getCap();
+		String provincia = docu.getProvincia();
 		LocalDate dataNascita = docu.getDataDiNascita();
 		List<Integer> risposta = new ArrayList<>();
 		if(dataNascita !=null && !controllaDataNascita(dataNascita)) {
 			risposta.add(5);
 			return risposta;
 		}
-		if(nome == "" || cognome == "" || email == "" || nickname == "" || password == ""|| password2 == ""|| citta == "" || cap == "" || dataNascita == null) risposta.add(1);
+		if(nome == "" || cognome == "" || email == "" || nickname == "" || password == ""|| password2 == ""|| citta == "" || cap == "" || provincia == "" || dataNascita == null) risposta.add(1);
 		if(email != "" & !controllaEmail(email)) risposta.add(7);
 		if(password != "" & password2!= "" & password != password2) risposta.add(6);
 		if(cap != "" & !controllaCap(cap)) risposta.add(2);
+		if(provincia != "" & provincia.length()!=2) risposta.add(8);
+		else docu.setProvincia(provincia.toUpperCase());
+		
 		if (risposta.size() !=0) return risposta;		
 		String passwordCodificata = codificaPassword(password, "SHA-256");
 		if (passwordCodificata == null) risposta.add(0);

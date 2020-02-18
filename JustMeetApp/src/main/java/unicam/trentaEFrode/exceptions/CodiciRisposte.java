@@ -19,6 +19,7 @@ public class CodiciRisposte {
 		codici.put( 5, "Devi essere maggiorenne per iscriverti alla piattaforma!");
 		codici.put( 6, "Le password inserite non coincidono");
 		codici.put( 7, "Email gia' esistente!");
+		codici.put( 8, "Provincia non valida.");
 	}
 	
 	public String getMessageOf(int n) {
