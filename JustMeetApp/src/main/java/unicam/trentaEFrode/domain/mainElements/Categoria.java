@@ -79,6 +79,6 @@ public class Categoria {
 	}
 	
 	public boolean equals(Categoria categoria) {
-		return nome == categoria.nome();
+		return nome.equals(categoria.nome());
 	}
 }

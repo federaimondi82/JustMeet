@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import unicam.trentaEFrode.domain.mainElements.Categoria;
-import unicam.trentaEFrode.domain.mainElements.Evento;
-import unicam.trentaEFrode.domain.mainElements.Luogo;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 class TestUseCaseCreazioneEvento {

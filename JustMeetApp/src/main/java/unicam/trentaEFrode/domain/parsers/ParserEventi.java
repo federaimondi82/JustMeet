@@ -26,10 +26,7 @@ public class ParserEventi {
 		List<Evento> eventi = new ArrayList<Evento>();
 		for (int i = 0; i < agenda.length; i++) {
 			agenda[i] = agenda[i].substring(1, agenda[i].length() - 1);
-			evento = agenda[i].split("-");
-			
-			System.out.printf("parsereventi 31 \n evento[2] = %s", evento[2]);
-			
+			evento = agenda[i].split("-");			
 			eventi.add(new Evento(evento[1], // nome
 					new GregorianCalendar(Integer.parseInt(evento[2].split("/")[0]),
 							Integer.parseInt(evento[2].split("/")[1]), Integer.parseInt(evento[2].split("/")[2]),

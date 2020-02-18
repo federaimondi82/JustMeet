@@ -122,9 +122,10 @@ public class GestoreEventi extends Gestore {
 		return null;
 	}
 
-	public List<Evento> cerca(String parola, String categoria, String citta, String provincia, GregorianCalendar da, GregorianCalendar a, int idUtente) {
+	public List<Evento> cerca(String parola, String categoria, String citta, String provincia, 
+			GregorianCalendar da, GregorianCalendar a, int idUtente) {
 		String date = controllaDate(da, a);
-		String listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/{" + parola + "}:{" + categoria + "}:{" + citta + "}:{" + provincia + "}:" + date + ":{" + idUtente + "}", "GET");
+		String listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/" + parola + ":" + categoria + ":" + citta + ":" + provincia + ":" + date + ":" + idUtente + "", "GET");
 		return ParserEventi.getInstance().parseEventi(listaEventi);
 	}
 
@@ -140,8 +141,8 @@ public class GestoreEventi extends Gestore {
 			a = oggi;
 			a.add(Calendar.DAY_OF_MONTH, 7);
 		}  
-		return "{"+ da.get(Calendar.YEAR) + ":" +da.get(Calendar.MONTH)+1 + ":" + da.get(Calendar.DAY_OF_MONTH) + "}:{" +
-				a.get(Calendar.YEAR) + ":" +a.get(Calendar.MONTH)+1 + ":" + a.get(Calendar.DAY_OF_MONTH) + "}";
+		return ""+ da.get(Calendar.YEAR) + ":" +da.get(Calendar.MONTH)+1 + ":" + da.get(Calendar.DAY_OF_MONTH) + ":" +
+				a.get(Calendar.YEAR) + ":" +a.get(Calendar.MONTH)+1 + ":" + a.get(Calendar.DAY_OF_MONTH) ;
 	}
 
 }

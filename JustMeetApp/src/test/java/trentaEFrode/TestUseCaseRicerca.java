@@ -2,16 +2,15 @@ package trentaEFrode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
+import java.net.ConnectException;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
-import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.Evento;
-import unicam.trentaEFrode.domain.mainElements.RegistroCategorie;
 
 
 class TestUseCaseRicerca {
@@ -20,11 +19,24 @@ class TestUseCaseRicerca {
 
 	/*
 	 * L'utente che accede, visualizza gli eventi nelle vicinanze che corrispondono ai suoi 
-	 * interessi. Ovviamente i filtri per la ricerca sono assenti.
+	 * interessi.
 	 * */
 	@Test
 	void testPrimaRicerca() {
-		List<Evento> eventiTrovati = utente.cerca(true, "", new ArrayList<Categoria>(), "", "", null);
+		List<Evento> eventiValoriDefault = utente.cerca(true, "null", "null", "null", "null", null, null);
+		List<Evento> eventiValoriCasuali = utente.cerca(true, "pizza", "cibo", "Roma", "RM", new GregorianCalendar(), null);
+		assertTrue(eventiValoriDefault.size() == eventiValoriCasuali.size());
+		System.out.println("---------------------------TEST PRIMA RICERCA-----------------------------------");
+		System.out.println("\n eventiValoriDefault : \n");
+		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
+		System.out.println("\n eventiValoriCasuali : \n");
+		for(Evento e : eventiValoriCasuali) System.out.println(e.toString());
+		int indice1 = new Random().nextInt(eventiValoriDefault.size());
+		int indice2 = new Random().nextInt(eventiValoriDefault.size());
+		int indice3 = new Random().nextInt(eventiValoriDefault.size());
+		assertTrue(eventiValoriDefault.get(indice1).equals(eventiValoriCasuali.get(indice1)));
+		assertTrue(eventiValoriDefault.get(indice2).equals(eventiValoriCasuali.get(indice2)));
+		assertTrue(eventiValoriDefault.get(indice3).equals(eventiValoriCasuali.get(indice3)));
 	}
 	
 	/*
@@ -33,30 +45,48 @@ class TestUseCaseRicerca {
 	 * aggiornamento della pagina.
 	 */
 	@Test
-	void testRicercaSenzaParametri() {
-		List<Evento> eventiTrovati = utente.cerca(false, "", new ArrayList<Categoria>(), "", "", null);
-		// parola chiave, categoria, città, provincia, giorno 
+	void testRicercaSenzaParametri() {		
+		List<Evento> eventiSenzaParametri = utente.cerca(false, "null", "null", "null", "null", null, null);
+		List<Evento> eventiValoriDefault = utente.cerca(true, "null", "null", "null", "null", null, null);
+		assertTrue(eventiValoriDefault.size() == eventiSenzaParametri.size());
+		assertEquals(eventiValoriDefault, eventiSenzaParametri);
+		System.out.println("---------------------------TEST RICERCA SENZA PARAMETRI-----------------------------------");
+		System.out.println("\n eventiValoriDefault : \n");
+		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
+		System.out.println("\n eventiValoriCasuali : \n");
+		for(Evento e : eventiSenzaParametri) System.out.println(e.toString());
+		int indice1 = new Random().nextInt(eventiValoriDefault.size());
+		int indice2 = new Random().nextInt(eventiValoriDefault.size());
+		int indice3 = new Random().nextInt(eventiValoriDefault.size());
+		assertTrue(eventiValoriDefault.get(indice1).equals(eventiSenzaParametri.get(indice1)));
+		assertTrue(eventiValoriDefault.get(indice2).equals(eventiSenzaParametri.get(indice2)));
+		assertTrue(eventiValoriDefault.get(indice3).equals(eventiSenzaParametri.get(indice3)));
 	}
 	
 	@Test
-	void testRicercaConParametri1() {
-		List<Categorie> categorie = new ArrayList<>();
-		categorie.add(RegistroCategorie.getInstance().getCategoria("cibo"));
-		List<Evento> eventiTrovati = utente.cerca(false, "", categorie, "", "", null);
-		// parola chiave, categoria, città, provincia, giorno 
+	void testRicercaConParametri1() throws ConnectException {
+		new TestUseCaseCreazioneEvento().testEventoValido();
+		List<Evento> eventiTrovati = utente.cerca(false, "Pranzo", "cibo", "Ascoli", "AP", new GregorianCalendar(), null );
+		assertFalse(eventiTrovati.isEmpty());
+		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 1-----------------------------------");
+		for(Evento e : eventiTrovati) System.out.println(e.toString());		
 	}	
 	
 	@Test
-	void testRicercaConParametri2() {
-		
-		List<Evento> eventiTrovati = utente.cerca(false, "", new ArrayList<Categoria>(), "", "", null);
-		// parola chiave, categoria, città, provincia, giorno 
-	}	
+	void testRicercaConParametri2() throws ConnectException {
+		//new TestUseCaseCreazioneEvento().testEventoValido();
+		List<Evento> eventiTrovati = utente.cerca(false, "null", "cibo", "null", "null", new GregorianCalendar(), null );
+		assertFalse(eventiTrovati.isEmpty());
+		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 2-----------------------------------");
+		for(Evento e : eventiTrovati) System.out.println(e.toString());		
+	}
 
 	@Test
-	void testRicercaConParametri3() {
-		
-		List<Evento> eventiTrovati = utente.cerca(false, "", new ArrayList<Categoria>(), "", "", null);
-		// parola chiave, categoria, città, provincia, giorno 
+	void testRicercaConParametri3() throws ConnectException {
+		//new TestUseCaseCreazioneEvento().testEventoValido();
+		List<Evento> eventiTrovati = utente.cerca(false, "Pranzo", "null", "null", "null", null, new GregorianCalendar() );
+		assertFalse(eventiTrovati.isEmpty());
+		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 3-----------------------------------");
+		for(Evento e : eventiTrovati) System.out.println(e.toString());		
 	}	
 }

@@ -228,6 +228,12 @@ public class UtenteRegistrato implements Utente {
 			) {
 		Evento evento = new Evento(nome, dataOra, minPartecipanti, maxPartecipanti, descrizione, durata, nomeLuogo, indirizzo, numeroCivico, cap, citta, provincia, categoria);
 		evento.setOrganizzatore(this.id);
+		return creaEvento(evento);
+		
+	}
+
+	
+	public List<Integer> creaEvento(Evento evento) {
 		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(evento);
 		if(risposta.get(0) == -1) { // se è andato tutto bene
 			if(organizzatore == null) this.organizzatore = new Organizzatore();
@@ -237,7 +243,7 @@ public class UtenteRegistrato implements Utente {
 		System.out.println("ur 220 risposta[0] =" + risposta.get(0));
 		return risposta;
 	}
-
+	
 	public boolean partecipa(int idEvento) {
 		if(partecipante == null) partecipante = new Partecipante();
 		else if(partecipante.esiste(idEvento)) return false;
@@ -254,13 +260,16 @@ public class UtenteRegistrato implements Utente {
 		return !partecipante.getEventi().isEmpty();
 	}
 
-	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, String citta, String provincia, GregorianCalendar inizio, GregorianCalendar fine) {
-		GregorianCalendar da = new GregorianCalendar();
-		GregorianCalendar a = new GregorianCalendar();
-		a.add(Calendar.DAY_OF_MONTH, 7);
+	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, String citta, 
+			String provincia, GregorianCalendar inizio, GregorianCalendar fine) {
+			if(inizio == null) inizio = new GregorianCalendar();
+			if(fine == null) {
+				fine = new GregorianCalendar();
+				fine.add(Calendar.DAY_OF_MONTH, 7);
+			} 
 		return primoAccesso?
-				GestoreEventi.getInstance().cerca("", "", "", "", da, a, this.id):
-				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, da, a, this.id);
+				GestoreEventi.getInstance().cerca("null", "null", "null", "null", inizio, fine, this.id):
+				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, inizio, fine, this.id);
 
 	}
 }

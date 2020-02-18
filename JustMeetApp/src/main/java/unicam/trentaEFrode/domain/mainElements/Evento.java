@@ -342,18 +342,20 @@ public class Evento {
 				+ ":" + luogo.toString() + ":" +categoria.getId() + ":" + organizzatore;
 	}	
 	
-	public boolean equals(Evento evento) {
+	@Override
+	public boolean equals(Object o) {
+		if(!(o instanceof Evento)) return false;
+		Evento evento = (Evento) o;
 		return
-			this.id == evento.id() &&
-			this.nome.equals(evento.nome()) &&
-			this.dataOra.equals(evento.dataOra()) &&
-			this.minPartecipanti == evento.minPartecipanti() &&
-			this.maxPartecipanti == evento.maxPartecipanti() &&
-			this.descrizione.equals(evento.descrizione()) &&
-			this.durata == durata() &&
-			this.luogo.equals(evento.luogo()) &&
-			this.categoria.equals(evento.categoria())
-			? true:false;
+		this.id == evento.id() &&
+		this.nome.equals(evento.nome()) &&
+		this.dataOra.equals(evento.dataOra()) &&
+		this.minPartecipanti == evento.minPartecipanti() &&
+		this.maxPartecipanti == evento.maxPartecipanti() &&
+		this.descrizione.equals(evento.descrizione()) &&
+		this.durata == durata() &&
+		this.luogo.equals(evento.luogo()) &&
+		this.categoria.equals(evento.categoria());
 	}
 
 	public String durataStringa() {

@@ -164,15 +164,13 @@ public class Luogo {
 	}
 	
 	public boolean equals(Luogo luogo) {
-		if(
+		return
 				this.nome.equals(luogo.nome()) &&
 				this.indirizzo.equals(luogo.indirizzo()) &&
 				this.numeroCivico.equals(luogo.numeroCivico()) &&
 				this.cap.equals(luogo.cap()) &&
 				this.citta.equals(luogo.citta()) &&
-				this.provincia.equals(luogo.provincia()) 		
-		) return true;
-		return false;
+				this.provincia.equals(luogo.provincia());		
 	}
 	
 	public String stringaLuogo() {
