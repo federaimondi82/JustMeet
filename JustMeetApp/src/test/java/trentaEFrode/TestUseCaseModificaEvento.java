@@ -19,15 +19,18 @@ class TestUseCaseModificaEvento {
 		Organizzatore organizzatore = UtenteRegistrato.getInstance().id(2).getOrganizzatore();
 		//Step 1 : Recupero gli eventi creati dall'utente
 		List<Evento> lista = organizzatore.getEventi();
+		
+		//lista.stream().forEach(e -> System.out.println(e.toString()));
 		//Step 2 : Scelgo un evento randomico
 		Evento e = lista.get(new Random().nextInt(lista.size()));
 		//Step 3 : Creo una nuova data e la imposto come data dell'evento scelto
 		GregorianCalendar nuovaData = new GregorianCalendar();
-		nuovaData.add(GregorianCalendar.MONTH, 2);
+		nuovaData.add(GregorianCalendar.MONTH, new Random().nextInt(13));
+		nuovaData.add(GregorianCalendar.HOUR, new Random().nextInt(24));
 		//Step 4 : Effettuo il cambiamento e confermo le modifiche
 		e.cambiaDataOra(nuovaData);
 		
-		System.out.println(e.toString());
+		//System.out.println(e.toString());
 		
 		List<Integer> risposta = organizzatore.modificaEvento(e);
 		assertEquals(1, risposta.size());

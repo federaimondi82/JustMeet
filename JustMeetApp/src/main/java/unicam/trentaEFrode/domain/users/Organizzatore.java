@@ -3,7 +3,9 @@ package unicam.trentaEFrode.domain.users;
 import java.util.List;
 
 import unicam.trentaEFrode.domain.mainElements.Agenda;
+import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.Evento;
+import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
 
 /*
  * L'organizzatore è un ruolo che permette all'utente registrato di gestire gli eventi organizzati.
@@ -25,11 +27,15 @@ public class Organizzatore implements Ruolo{
 	}
 
 	public boolean cancellaEvento(int id) {
-		return this.agenda.cancella(id);
+		boolean result = Boolean.parseBoolean(ConnectBackEnd.getInstance().restRequest("/eventi/cancella/" + id, "DELETE"));
+		if(result) return this.agenda.cancella(id);
+		return false;
 	}
 
 	public List<Integer> modificaEvento(Evento evento) {
-		return this.agenda.modificaEvento(evento);
+		List<Integer> risultato = GestoreEventi.getInstance().effettuaControlli(evento);
+		if(risultato.get(0)== -1) this.agenda.modificaEvento(evento);
+		return risultato;
 	}
 
 	public List<Evento> getEventi() {

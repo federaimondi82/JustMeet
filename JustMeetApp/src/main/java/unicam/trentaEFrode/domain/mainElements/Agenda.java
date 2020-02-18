@@ -66,8 +66,8 @@ public class Agenda {
 
 	private void carica() {
 		eventi = proprietario instanceof Organizzatore ?
-				ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET"))
-				:ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/partecipa/utente/" + UtenteRegistrato.getInstance().getId(), "GET"));
+				ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET")):
+				ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/partecipa/utente/" + UtenteRegistrato.getInstance().getId(), "GET"));
 	}
 
 	/**
@@ -76,10 +76,7 @@ public class Agenda {
 	 * @return true se l'operazione è andata a buon fine, false altrimenti.
 	 * */
 	public boolean cancella(int id) {
-		boolean result = Boolean.parseBoolean(ConnectBackEnd.getInstance().restRequest("/eventi/cancella/" + id, "DELETE"));
-		if(result) result = eventi.removeIf(e -> e.id() == id);
-		System.out.println("RESULT 2 = " + result);
-		return result;
+		 return eventi.removeIf(e -> e.id() == id);
 	}
 
 	/**
@@ -95,13 +92,8 @@ public class Agenda {
 		return eventi.isEmpty();
 	}
 
-	public List<Integer> modificaEvento(Evento evento) {
-		List<Integer> risultato = GestoreEventi.getInstance().effettuaControlli(evento);
-		if(risultato.get(0)== -1) {
-			cancella(evento.id());
-			risultato.set(0, aggiungiEvento(evento)? -1:7);
-		} 
-		return risultato;
+	public void modificaEvento(Evento evento) {
+		this.eventi.stream().forEach(e -> {if(e.id() == evento.id()) e = evento;}); 
 	}
 
 }

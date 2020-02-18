@@ -26,11 +26,11 @@ class TestUseCaseRicerca {
 		List<Evento> eventiValoriDefault = utente.cerca(true, "null", "null", "null", "null", null, null);
 		List<Evento> eventiValoriCasuali = utente.cerca(true, "pizza", "cibo", "Roma", "RM", new GregorianCalendar(), null);
 		assertTrue(eventiValoriDefault.size() == eventiValoriCasuali.size());
-		System.out.println("---------------------------TEST PRIMA RICERCA-----------------------------------");
-		System.out.println("\n eventiValoriDefault : \n");
-		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
-		System.out.println("\n eventiValoriCasuali : \n");
-		for(Evento e : eventiValoriCasuali) System.out.println(e.toString());
+//		System.out.println("---------------------------TEST PRIMA RICERCA-----------------------------------");
+//		System.out.println("\n eventiValoriDefault : \n");
+//		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
+//		System.out.println("\n eventiValoriCasuali : \n");
+//		for(Evento e : eventiValoriCasuali) System.out.println(e.toString());
 		int indice1 = new Random().nextInt(eventiValoriDefault.size());
 		int indice2 = new Random().nextInt(eventiValoriDefault.size());
 		int indice3 = new Random().nextInt(eventiValoriDefault.size());
@@ -50,11 +50,11 @@ class TestUseCaseRicerca {
 		List<Evento> eventiValoriDefault = utente.cerca(true, "null", "null", "null", "null", null, null);
 		assertTrue(eventiValoriDefault.size() == eventiSenzaParametri.size());
 		assertEquals(eventiValoriDefault, eventiSenzaParametri);
-		System.out.println("---------------------------TEST RICERCA SENZA PARAMETRI-----------------------------------");
-		System.out.println("\n eventiValoriDefault : \n");
-		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
-		System.out.println("\n eventiValoriCasuali : \n");
-		for(Evento e : eventiSenzaParametri) System.out.println(e.toString());
+//		System.out.println("---------------------------TEST RICERCA SENZA PARAMETRI-----------------------------------");
+//		System.out.println("\n eventiValoriDefault : \n");
+//		for(Evento e : eventiValoriDefault) System.out.println(e.toString());
+//		System.out.println("\n eventiValoriCasuali : \n");
+//		for(Evento e : eventiSenzaParametri) System.out.println(e.toString());
 		int indice1 = new Random().nextInt(eventiValoriDefault.size());
 		int indice2 = new Random().nextInt(eventiValoriDefault.size());
 		int indice3 = new Random().nextInt(eventiValoriDefault.size());
@@ -65,26 +65,25 @@ class TestUseCaseRicerca {
 	
 	@Test
 	void testRicercaConParametri1() throws ConnectException {
-		new TestUseCaseCreazioneEvento().testEventoValido();
 		List<Evento> eventiTrovati = utente.cerca(false, "Pranzo", "cibo", "Ascoli", "AP", new GregorianCalendar(), null );
 		assertFalse(eventiTrovati.isEmpty());
-		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 1-----------------------------------");
-		for(Evento e : eventiTrovati) System.out.println(e.toString());		
+//		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 1-----------------------------------");
+//		for(Evento e : eventiTrovati) System.out.println(e.toString());		
 	}	
 	
 	@Test
 	void testRicercaConParametri2() throws ConnectException {
 		List<Evento> eventiTrovati = utente.cerca(false, "null", "cibo", "null", "null", new GregorianCalendar(), null );
 		assertFalse(eventiTrovati.isEmpty());
-		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 2-----------------------------------");
-		for(Evento e : eventiTrovati) System.out.println(e.toString());		
+//		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 2-----------------------------------");
+//		for(Evento e : eventiTrovati) System.out.println(e.toString());		
 	}
 
 	@Test
 	void testRicercaConParametri3() throws ConnectException {
 		List<Evento> eventiTrovati = utente.cerca(false, "Pranzo", "null", "null", "null", null, new GregorianCalendar() );
 		assertFalse(eventiTrovati.isEmpty());
-		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 3-----------------------------------");
-		for(Evento e : eventiTrovati) System.out.println(e.toString());		
+//		System.out.println("---------------------------TEST RICERCA CON PARAMETRI 3-----------------------------------");
+//		for(Evento e : eventiTrovati) System.out.println(e.toString());		
 	}	
 }

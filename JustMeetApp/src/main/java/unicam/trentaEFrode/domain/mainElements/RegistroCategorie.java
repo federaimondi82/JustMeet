@@ -28,10 +28,7 @@ public class RegistroCategorie {
 	}
 	
 	private RegistroCategorie() throws ConnectException {
-		this.categorie = caricaCategorie();
-		
-		System.out.println(" registro categorie 33 categorie.get(3).nome() " + categorie.get(3).nome());
-		
+		this.categorie = caricaCategorie();		
 		this.interessi=new ArrayList<>();
 	}
 	
@@ -56,10 +53,7 @@ public class RegistroCategorie {
 	 * @throws ConnectException 
 	 */
 	public List<Categoria> caricaCategorie() throws ConnectException {
-		String s=ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
-		
-		System.out.println("registro categorie 58 s = " + s);
-		
+		String s=ConnectBackEnd.getInstance().restRequest("/cat/", "GET");		
 		return ParserCategorie.getInstance().parseCategorieFromServer(s);
 	}
 	
@@ -77,9 +71,7 @@ public class RegistroCategorie {
 	}
 	
 	public Categoria getCategoria(String nome) throws CategoriaInesistente {
-		
-		System.out.println("registro categorie 81 nome cercato = " + nome);
-		
+				
 		for(Categoria c:categorie) if(c.nome().equals(nome)) return c;
 		throw new CategoriaInesistente();
 	}

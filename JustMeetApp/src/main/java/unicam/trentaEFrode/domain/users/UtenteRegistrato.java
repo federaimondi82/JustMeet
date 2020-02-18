@@ -3,6 +3,7 @@ package unicam.trentaEFrode.domain.users;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.Evento;
@@ -244,7 +245,6 @@ public class UtenteRegistrato implements Utente {
 			risposta.clear();
 			risposta.add(this.organizzatore.aggiungiEvento(evento)?-1:0);
 		}
-		System.out.println("ur 220 risposta[0] =" + risposta.get(0));
 		return risposta;
 	}
 	
@@ -275,6 +275,10 @@ public class UtenteRegistrato implements Utente {
 				GestoreEventi.getInstance().cerca("null", "null", "null", "null", inizio, fine, this.id):
 				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, inizio, fine, this.id);
 
+	}
+
+	public BooleanSupplier disdiciPartecipazione(int idEventoScelto) {
+		return null;
 	}
 
 }

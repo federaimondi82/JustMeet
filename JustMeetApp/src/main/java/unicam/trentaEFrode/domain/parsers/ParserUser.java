@@ -22,17 +22,7 @@ public class ParserUser {
 	 * @return L'unica istanza di utente resistarto, l'utente che sta usando l'applicazione lato client
 	 */
 	public UtenteRegistrato parseUtenteFromServer(String value){
-		/**
-		 * Ritorna una cosa tipo:
-		 * 
-		 *2:Mario:Rossi:mariorossi@email.it:marione:abc:abc:2000-01-02:Ascoli Piceno:6:AP:
-		 * */	
-		
-		System.out.println("value parse user 36 = " + value);
 		String[] arr = value.split(":");
-		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-		for(int i = 0; i < arr.length ; i ++) System.out.println(arr[i]);
-		System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");		
 		UtenteRegistrato.getInstance().id(Integer.parseInt(arr[0])).
 		nome(arr[1]).cognome(arr[2]).email(arr[3]).nickname(arr[4]).password(arr[5]).dataDiNascita(ParserData.getInstance().parsaData(arr[7])).citta(arr[8]).cap(arr[9]).provincia(arr[10]);
 		return UtenteRegistrato.getInstance();

@@ -51,10 +51,10 @@ public class GestoreRegistrazioni extends Gestore{
 			return risposta;
 		}
 		if(nome == "" || cognome == "" || email == "" || nickname == "" || password == ""|| password2 == ""|| citta == "" || cap == "" || provincia == "" || dataNascita == null) risposta.add(1);
-		if(email != "" & !controllaEmail(email)) risposta.add(7);
-		if(password != "" & password2!= "" & password != password2) risposta.add(6);
-		if(cap != "" & !controllaCap(cap)) risposta.add(2);
-		if(provincia != "" & provincia.length()!=2) risposta.add(8);
+		if(email != "" && !controllaEmail(email)) risposta.add(7);
+		if(password != "" && password2!= "" & password != password2) risposta.add(6);
+		if(cap != "" && !controllaCap(cap)) risposta.add(2);
+		if(provincia != "" && provincia.length()!=2) risposta.add(8);
 		else docu.setProvincia(provincia.toUpperCase());
 		
 		if (risposta.size() !=0) return risposta;		

@@ -4,6 +4,7 @@ import java.util.List;
 
 import unicam.trentaEFrode.domain.mainElements.Agenda;
 import unicam.trentaEFrode.domain.mainElements.Evento;
+import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
 
 public class Partecipante implements Ruolo{
 
@@ -23,6 +24,12 @@ public class Partecipante implements Ruolo{
 
 	public List<Evento> getEventi() {
 		return agenda.getEventi();
+	}
+
+	public boolean disdiciPartecipazione(int idEvento) {
+		boolean risultato = Boolean.parseBoolean(GestoreEventi.getInstance().disdiciPartecipazione(idEvento, UtenteRegistrato.getInstance().getId()));
+		if(risultato) return this.agenda.cancella(idEvento);
+		return false;
 	}
 	
 }

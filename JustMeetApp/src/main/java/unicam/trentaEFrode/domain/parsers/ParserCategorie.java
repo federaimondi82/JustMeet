@@ -43,7 +43,7 @@ public class ParserCategorie {
 		
 		return catList;
 	}
-
+	
 	/**
 	 * Trasforma la lista di categorie in una stringa da inviare al server
 	 * @param categorie una lista di categorie , esempio gli interessi dell'utente

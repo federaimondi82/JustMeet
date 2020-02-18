@@ -17,13 +17,8 @@ class TestCategorie {
 	@Test
 	void testLoadCategorie() {
 		String s="";
-		s = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");
-		System.out.println(s);
-		
+		s = ConnectBackEnd.getInstance().restRequest("/cat/", "GET");		
 		List<Categoria> l=ParserCategorie.getInstance().parseCategorieFromServer(s);
-		
-		l.stream().forEach(cat->System.out.println(cat.toString()));
-		
 		assertNotNull(s);
 	}
 }

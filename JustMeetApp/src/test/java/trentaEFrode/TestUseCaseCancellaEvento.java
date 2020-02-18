@@ -22,15 +22,15 @@ class TestUseCaseCancellaEvento {
 	void testCancellaEvento() {
 		UtenteRegistrato utente = UtenteRegistrato.getInstance().id(2);
 		Organizzatore organizzatore = utente.getOrganizzatore();
-		//Step 1 :Recupero gli eventi creati dall'utente
+		//Step 1 :Recupero degli eventi creati dall'utente
 		List<Evento> agenda = organizzatore.getAgenda().getEventi();
 		assertFalse(agenda.isEmpty());
-		//Step 2 : Scelgo un evento randomico da cancellare
+		//Step 2 : Scelta di un evento randomico da cancellare
 		Evento eventoDaCancellare =	agenda.get(new Random().nextInt(agenda.size()));
-		//Step 3 : Cancello l'evento
+		//Step 3 : Cancellare l'evento
 		boolean result = organizzatore.cancellaEvento(eventoDaCancellare.id());
 		assertTrue(result);
-		// Step 4 : Reinserisco l'evento cancellato.		 
+		// Step 4 : Reinserimento l'evento cancellato.		 
 		assertTrue(utente.creaEvento(eventoDaCancellare).get(0) == -1);
 	}
 }

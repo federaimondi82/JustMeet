@@ -8,14 +8,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.ConnectException;
 
 import org.junit.Test;
 
 import unicam.trentaEFrode.domain.mainElements.ConnectBackEnd;
 import unicam.trentaEFrode.domain.mainElements.RegistroStatico;
-import unicam.trentaEFrode.domain.parsers.ParserUser;
-import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 public class TestStart {
 
@@ -27,21 +24,14 @@ public class TestStart {
 		String s="";
 		try {
 			s = ConnectBackEnd.getInstance().restRequest("/testConnessione/", "GET");
-			
 			assertTrue(Boolean.parseBoolean(s));		
-			
-			System.out.println("connessione ok");
-			
 		} catch (Exception e) {
 			System.out.println("nessuna connessione");
 		}
-		
-
-		
 	}
 	
 	
-	@Test
+	//@Test
 	public final void testFileCacheExists() {
 		//preparo le istanze per la creazione del file di cache
 		String path=RegistroStatico.getInstance().getPath();
@@ -84,20 +74,4 @@ public class TestStart {
 		
 		assertTrue(!RegistroStatico.getInstance().cacheFileExists());
 	}
-	
-	@Test
-	public final void testAutenticazione() {
-		try {
-			String s=ConnectBackEnd.getInstance()
-					.restRequest("/utenti/auth/"+"fede_7_@gmail.com"+":"+"688787D8FF144C502C7F5CFFAAFE2CC588D86079F9DE88304C26B0CB99CE91C6", "GET");
-			
-
-			ParserUser.getInstance().parseUtenteFromServer(s);
-			assertTrue(UtenteRegistrato.getInstance().getCap()!=null);
-			
-		} catch (ConnectException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

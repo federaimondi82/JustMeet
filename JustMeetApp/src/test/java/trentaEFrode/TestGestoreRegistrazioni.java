@@ -173,7 +173,6 @@ class TestGestoreRegistrazioni {
 	public final void test_autenticazione() {
 		
 		String value = ConnectBackEnd.getInstance().restRequest("/utenti/auth/mariorossi@email.it:abc", "GET");
-		System.out.println("test autenticazione 205 " + value);
 		ParserUser.getInstance().parseUtenteFromServer(value);
 		assertEquals(UtenteRegistrato.getInstance().getNome(), "Mario");
 		assertEquals(UtenteRegistrato.getInstance().getCognome(), "Rossi");

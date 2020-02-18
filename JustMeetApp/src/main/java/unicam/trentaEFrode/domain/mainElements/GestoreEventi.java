@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import unicam.trentaEFrode.domain.parsers.ParserEventi;
-import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
  * Classe decicata ai controlli degli eventi.
@@ -143,6 +142,10 @@ public class GestoreEventi extends Gestore {
 		}  
 		return ""+ da.get(Calendar.YEAR) + ":" +da.get(Calendar.MONTH)+1 + ":" + da.get(Calendar.DAY_OF_MONTH) + ":" +
 				a.get(Calendar.YEAR) + ":" +a.get(Calendar.MONTH)+1 + ":" + a.get(Calendar.DAY_OF_MONTH) ;
+	}
+
+	public String disdiciPartecipazione(int idEvento, int idUtente) {
+		return ConnectBackEnd.getInstance().restRequest("/partecipa/disdici/" + idEvento + ":" + idUtente, "GET");
 	}
 
 }
