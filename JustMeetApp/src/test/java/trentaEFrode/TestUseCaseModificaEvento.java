@@ -11,12 +11,13 @@ import org.junit.jupiter.api.Test;
 
 import unicam.trentaEFrode.domain.mainElements.Evento;
 import unicam.trentaEFrode.domain.users.Organizzatore;
+import unicam.trentaEFrode.domain.users.Ruolo;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 class TestUseCaseModificaEvento {
 	@Test
 	void testModificaEventoData() throws ConnectException {
-		Organizzatore organizzatore = UtenteRegistrato.getInstance().id(2).getOrganizzatore();
+		Ruolo organizzatore = UtenteRegistrato.getInstance().id(2).setRuolo(1);
 		//Step 1 : Recupero gli eventi creati dall'utente
 		List<Evento> lista = organizzatore.getEventi();
 		
@@ -32,7 +33,7 @@ class TestUseCaseModificaEvento {
 		
 		//System.out.println(e.toString());
 		
-		List<Integer> risposta = organizzatore.modificaEvento(e);
+		List<Integer> risposta = ((Organizzatore)organizzatore).modificaEvento(e);
 		assertEquals(1, risposta.size());
 		assertEquals(new Integer(-1), risposta.get(0));
 	}

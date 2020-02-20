@@ -3,11 +3,11 @@ package unicam.trentaEFrode.domain.users;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.function.BooleanSupplier;
 
 import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.Evento;
 import unicam.trentaEFrode.domain.mainElements.GestoreEventi;
+import unicam.trentaEFrode.domain.mainElements.RegistroRuoli;
 import unicam.trentaEFrode.domain.mainElements.Registratore;
 
 
@@ -25,8 +25,7 @@ public class UtenteRegistrato implements Utente {
 	private String cap;
 	private String provincia;
 	private List<Categoria> interessi;
-	private Organizzatore organizzatore;
-	private Partecipante partecipante;
+	private Ruolo ruolo;
 	
 	
 	private static UtenteRegistrato utente;
@@ -36,22 +35,109 @@ public class UtenteRegistrato implements Utente {
 		return utente;
 	}
 		
-	//private UtenteRegistrato() {}
-	
-	/*INIZIO semi builder*/
-
 	public UtenteRegistrato id(int id) {
-		this.id=id;
-		inizializza();
+		this.id=id;	
 		return this;
 	}
-	
-	private void inizializza() {
-		//TODO PRENDERE I DATI DELL'UTENTE DAL DB
-		this.organizzatore = new Organizzatore();
-		this.partecipante = new Partecipante();
+
+	/**
+	 * Permette la creazione di un nuovo evento sul backend;
+	 * 
+	 * @param nome
+	 * @param dataOra
+	 * @param minPartecipanti
+	 * @param maxPartecipanti
+	 * @param descrizione
+	 * @param durata
+	 * @param nomeLuogo
+	 * @param indirizzo
+	 * @param numeroCivico
+	 * @param cap
+	 * @param citta
+	 * @param provincia
+	 * @param categoria
+	 * @return una lista di errori
+	 */
+	public List<Integer> creaEvento(
+			String nome, 
+			GregorianCalendar dataOra, 
+			Integer minPartecipanti, 
+			Integer maxPartecipanti, 
+			String descrizione, 
+			Integer durata, 
+			String nomeLuogo, 
+			String indirizzo, 
+			String numeroCivico, 
+			String cap, 
+			String citta, 
+			String provincia,		
+			String categoria
+			) {
+		Evento evento = new Evento(nome, dataOra, minPartecipanti, maxPartecipanti, descrizione, durata, nomeLuogo, indirizzo, numeroCivico, cap, citta, provincia, categoria);
+		evento.setOrganizzatore(this.id);
+		return creaEvento(evento);	
 	}
 
+	
+	/**
+	 * Passa l'evento appena creato al gestore eventi per effettuare i controlli.
+	 * @param evento : l'evento creato da controllare
+	 * @return la lista di interi corrispondenti agli errori riscontrati.
+	 */
+	public List<Integer> creaEvento(Evento evento) {
+		return GestoreEventi.getInstance().effettuaControlli(evento);
+	}
+	
+	/**
+	 * Avvia la partecipazione all'evento con id idEvento
+	 * @param idEvento : l'evento da partecipare
+	 * @return se l'operazione è andata a buon fine.
+	 */
+	public boolean partecipa(int idEvento) {
+		return Registratore.getInstance().registraPartecipazione(idEvento, id);
+	}
+
+	/**
+	 * Avvia la ricerca con i parametri passati.
+	 * @param primoAccesso : se la ricerca è partita dal sistema all'avvio dell'applicazione (la ricerca 
+	 * si baserà sui valori di default).
+	 * @param parola : la parola chiave inserita dall'utente.
+	 * @param categoria : la categoria inserita dall'utente.
+	 * @param citta : la citta' inserita dall'utente.
+	 * @param provincia : la provincia inserita dall'utente.
+	 * @param inizio : l'inizio del range temporale inserito dall'utente.
+	 * @param fine : la fine del range temporale inserito dall'utente.
+	 * @return la lista degli eventi trovati.
+	 */
+	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, String citta, 
+			String provincia, GregorianCalendar inizio, GregorianCalendar fine) {
+			if(inizio == null) inizio = new GregorianCalendar();
+			if(fine == null) {
+				fine = new GregorianCalendar();
+				fine.add(Calendar.DAY_OF_MONTH, 7);
+			} 
+		return primoAccesso?
+				GestoreEventi.getInstance().cerca("null", "null", "null", "null", inizio, fine, this.id):
+				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, inizio, fine, this.id);
+	}
+
+	
+	/**
+	 * Ritorna true se l'utente ha organizzato almeno un evento, false altrimenti.
+	 * @return true se l'utente ha organizzato almeno un evento, false altrimenti.
+	 */
+	public boolean isOrganizzatore() {
+		return !this.setRuolo(1).getEventi().isEmpty();
+	}
+
+	/**
+	 * Ritorna true se l'utente ha confermato la partecipazione ad almeno un evento, false altrimenti.
+	 * @return true se l'utente ha confermato la partecipazione ad almeno un evento, false altrimenti.
+	 */
+	public boolean isPartecipante() {
+		return !this.setRuolo(2).getEventi().isEmpty();
+	}
+	
 	public UtenteRegistrato nome(String nome) {
 		this.nome=nome;
 		return this;
@@ -100,6 +186,7 @@ public class UtenteRegistrato implements Utente {
 	/*FINE semi builder*/
 
 
+	
 	public List<Categoria> getMieCategorie() {
 		return this.interessi;
 	}
@@ -208,77 +295,13 @@ public class UtenteRegistrato implements Utente {
 		return provincia;
 	}
 
-	public Organizzatore getOrganizzatore() {
-		return organizzatore;
+	public Ruolo getRuolo() {
+		return this.ruolo;
 	}
 	
-	public Partecipante getPartecipante() {
-		return partecipante;
-	}
-
-	public List<Integer> creaEvento(
-			String nome, 
-			GregorianCalendar dataOra, 
-			Integer minPartecipanti, 
-			Integer maxPartecipanti, 
-			String descrizione, 
-			Integer durata, 
-			String nomeLuogo, 
-			String indirizzo, 
-			String numeroCivico, 
-			String cap, 
-			String citta, 
-			String provincia,		
-			String categoria
-			) {
-		Evento evento = new Evento(nome, dataOra, minPartecipanti, maxPartecipanti, descrizione, durata, nomeLuogo, indirizzo, numeroCivico, cap, citta, provincia, categoria);
-		evento.setOrganizzatore(this.id);
-		return creaEvento(evento);
-		
-	}
-
-	
-	public List<Integer> creaEvento(Evento evento) {
-		List<Integer> risposta = GestoreEventi.getInstance().effettuaControlli(evento);
-		if(risposta.get(0) == -1) { // se è andato tutto bene
-			if(organizzatore == null) this.organizzatore = new Organizzatore();
-			risposta.clear();
-			risposta.add(this.organizzatore.aggiungiEvento(evento)?-1:0);
-		}
-		return risposta;
-	}
-	
-	public boolean partecipa(int idEvento) {
-		if(partecipante == null) partecipante = new Partecipante();
-		else if(partecipante.esiste(idEvento)) return false;
-		boolean risposta = Registratore.getInstance().registraPartecipazione(idEvento, id);
-		if(risposta) risposta = partecipante.partecipa(idEvento);
-		return risposta;
-	}
-
-	public boolean isOrganizzatore() {
-		return !organizzatore.getEventi().isEmpty();
-	}
-
-	public boolean isPartecipante() {
-		return !partecipante.getEventi().isEmpty();
-	}
-
-	public List<Evento> cerca(boolean primoAccesso, String parola, String categoria, String citta, 
-			String provincia, GregorianCalendar inizio, GregorianCalendar fine) {
-			if(inizio == null) inizio = new GregorianCalendar();
-			if(fine == null) {
-				fine = new GregorianCalendar();
-				fine.add(Calendar.DAY_OF_MONTH, 7);
-			} 
-		return primoAccesso?
-				GestoreEventi.getInstance().cerca("null", "null", "null", "null", inizio, fine, this.id):
-				GestoreEventi.getInstance().cerca(parola, categoria, citta, provincia, inizio, fine, this.id);
-
-	}
-
-	public BooleanSupplier disdiciPartecipazione(int idEventoScelto) {
-		return null;
+	public Ruolo setRuolo(int idRuolo) {
+		this.ruolo = RegistroRuoli.getInstance().getRuolo(idRuolo);	
+		return ruolo;
 	}
 
 }

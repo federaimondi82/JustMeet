@@ -40,8 +40,8 @@ public class RegistroCategorie {
 	}
 	
 	/**
-	 * Restituisce una lista di interessi dell'utente
-	 * @return
+	 * Restituisce una lista di interessi dell'utente.
+	 * @return la lista di interessi dell'utente.
 	 */
 	public List<Categoria> getInteressi(){
 		carcaInteressi();
@@ -70,12 +70,10 @@ public class RegistroCategorie {
 		return nomi;
 	}
 	
-	public Categoria getCategoria(String nome) throws CategoriaInesistente {
-				
+	public Categoria getCategoria(String nome) throws CategoriaInesistente {			
 		for(Categoria c:categorie) if(c.nome().equals(nome)) return c;
 		throw new CategoriaInesistente();
 	}
-	
 	
 	/** Ritorna una istanza di Categoria in base al suo id
 	 * @param id

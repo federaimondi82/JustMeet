@@ -24,6 +24,5 @@ class TestUseCaseCreazioneEvento {
 		List<Integer> risposta = utente.creaEvento("Pranzo di beneficenza", data, 3, 100, "I soldi ricavati andranno in beneficenza", 3, "Ristorante Casa Mia", "via della cucina", String.valueOf((int)Math.random()*10000), "63100", "Ascoli Piceno", "AP", "cibo");
 		assertEquals(1, risposta.size());
 		assertEquals(new Integer(-1), risposta.get(0));
-		assertNotNull(utente.getOrganizzatore());
 	}
 }

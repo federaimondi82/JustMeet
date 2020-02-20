@@ -1,10 +1,7 @@
 package unicam.trentaEFrode.domain.mainElements;
 
-import java.net.ConnectException;
-
 /**
  * Classe per inviare i dati al lato backend per quanto riguarda la regitrazione di dati.
- *
  */
 public class Registratore {
 	
@@ -21,7 +18,6 @@ public class Registratore {
 	 * Ritorna true se la registrazione e' andata a buon fine; false altrimenti.
 	 * @param evento
 	 * @return ritorna true se l'evento e' stato salvato, altrimenti false
-	 * @throws ConnectException 
 	 */
 	public boolean registra(Evento evento) {
 		return ConnectBackEnd.getInstance().restRequest("/eventi/nuovo/", "POST", evento.toString());
@@ -31,7 +27,6 @@ public class Registratore {
 	 * Registra nel database l'utente con le informazioni contenute nel docu.
 	 * @param docu
 	 * @return Ritorna true se la registrazione e' andata a buon fine; false altrimenti.
-	 * @throws ConnectException 
 	 */
 	public boolean registra(DocuDiRegis docu) {
 		return ConnectBackEnd.getInstance().restRequest("/utenti/", "POST", docu.toString());
@@ -41,6 +36,12 @@ public class Registratore {
 	 * Registra nel database la partecipazione dell'utente con id idUtente all'evento con id idEvento.
 	 * @
 	 * */
+	/**
+	 * Registra nel database la partecipazione dell'utente con id idUtente all'evento con id idEvento.
+	 * @param idEvento : l'evento da confermare la partecipazione.
+	 * @param idUtente : l'utente che conferma la partecipazione.
+	 * @return true se l'operazione è andata a buon fine, false altrimenti.
+	 */
 	public boolean registraPartecipazione(int idEvento, int idUtente) {
 		return ConnectBackEnd.getInstance().restRequest("/partecipa/", "POST", idEvento +":" + idUtente);
 	}

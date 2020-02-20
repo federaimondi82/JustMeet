@@ -11,11 +11,10 @@ import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
  * Consente di mantenere traccia degli eventi dell'utente che utilizza l'applicazione
- * @author Trenta e Frode
  */
 public class Agenda {
 	
-	/*
+	/**
 	 * Il proprietario dell'agenda.
 	 * */
 	private Ruolo proprietario;
@@ -33,17 +32,15 @@ public class Agenda {
 	public Agenda(Ruolo proprietario) {
 		this.eventi = new ArrayList<>();
 		this.proprietario = proprietario;
-		carica();
 	}
 	
 	/**
 	 * Aggiunge l'evento avente l'id specificato all'agenda.
 	 * @param idEvento : l'id dell'evento da aggiungere.
 	 * @return true se l'evento è stato aggiunto, false altrimenti
-	 *
 	 */
 	public boolean aggiungiEvento(int idEvento) {
-		return aggiungiEvento(ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/" + idEvento, "GET")).get(0));
+		return aggiungiEvento(ParserEventi.getInstance().parseEventiFromServerToClient(ConnectBackEnd.getInstance().restRequest("/eventi/" + idEvento, "GET")).get(0));
 	}
 	
 	/**
@@ -61,17 +58,22 @@ public class Agenda {
 	 * @return la lista degli eventi
 	 */
 	public List<Evento> getEventi() {
+		this.eventi.clear();
+		carica();
 		return this.eventi;
 	}
 
+	/**
+	 * Memorizza in locale tutti gli eventi riguardanti il proprietario.
+	 */
 	private void carica() {
-		eventi = proprietario instanceof Organizzatore ?
-				ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET")):
-				ParserEventi.getInstance().parseEventi(ConnectBackEnd.getInstance().restRequest("/partecipa/utente/" + UtenteRegistrato.getInstance().getId(), "GET"));
+		this.eventi = proprietario instanceof Organizzatore ?
+				ParserEventi.getInstance().parseEventiFromServerToClient(ConnectBackEnd.getInstance().restRequest("/eventi/utenti/" + UtenteRegistrato.getInstance().getId(), "GET")):
+				ParserEventi.getInstance().parseEventiFromServerToClient(ConnectBackEnd.getInstance().restRequest("/partecipa/utente/" + UtenteRegistrato.getInstance().getId(), "GET"));
 	}
 
 	/**
-	 * Rimuove in locale e dal database l'evento con l'id specificato
+	 * Rimuove in locale l'evento con l'id specificato
 	 * @param id : l'id dell'evento da cancellare.
 	 * @return true se l'operazione è andata a buon fine, false altrimenti.
 	 * */
@@ -88,12 +90,30 @@ public class Agenda {
 		return eventi.stream().filter(e -> e.id() == idEvento).count() > 0;		 
 	}
 
+	/**
+	 * Verifica se l'agenda contiene eventi.
+	 * @return true se l'agenda contiene eventi, alse altrimenti.
+	 */
 	public boolean isEmpty() {
 		return eventi.isEmpty();
 	}
 
+	/**
+	 * Sostituisce nella lista di eventi l'evento con lo stesso id dell'evento passato con tutta 
+	 * l'istanza del medesimo.
+	 * @param evento : l'evento da sostituire.
+	 */
 	public void modificaEvento(Evento evento) {
 		this.eventi.stream().forEach(e -> {if(e.id() == evento.id()) e = evento;}); 
+	}
+
+	/**
+	 * Ritorna la lista di partecipanti (una lista di stringhe del tipo idUtente-nome-cognome-email).
+	 * @param evento : l'evento da cui trarre i partecipanti.
+	 * @return la lista dei partecipanti in formato stringa del tipo idUtente-nome-cognome-email.
+	 */
+	public List<String> getPartecipanti(Evento evento) {
+		return evento.getPartecipanti();
 	}
 
 }

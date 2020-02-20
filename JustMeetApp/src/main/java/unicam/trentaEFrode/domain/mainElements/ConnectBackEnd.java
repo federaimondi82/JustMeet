@@ -40,10 +40,11 @@ public class ConnectBackEnd {
 		return this.domain+":"+String.valueOf(this.port);
 	}
 	
-	/**Consente di effettuare una chiamata http usando i metodi post e put;
+	/**
+	 * Consente di effettuare una chiamata http usando i metodi post e put;
 	 * @param path il path univoco per fare la chiamata rest
 	 * @param method il metodo http da applicare
-	 * @param obj un elemento da inserire nel database
+	 * @param obj un elemento da inserire nel database in formato stringa
 	 * @return ritorna la risposta dal server
 	 */
 	public boolean restRequest(String path,String method, String obj) {
@@ -76,8 +77,8 @@ public class ConnectBackEnd {
 		
 	}
 	
-	/**Consente di effettuare una chiamata http usando i metodi get;
-	 * 
+	/**
+	 * Consente di effettuare una chiamata http usando i metodi get;
 	 * @param path il path univoco per fare la chiamata rest
 	 * @param method il metodo http da applicare
 	 * @return ritorna la risposta dal server
@@ -99,7 +100,6 @@ public class ConnectBackEnd {
 			e.printStackTrace();
 		}		
 		return s;
-		
 	}
 	
 

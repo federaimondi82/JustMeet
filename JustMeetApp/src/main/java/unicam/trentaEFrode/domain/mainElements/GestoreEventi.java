@@ -1,6 +1,5 @@
 package unicam.trentaEFrode.domain.mainElements;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -8,7 +7,7 @@ import java.util.List;
 import unicam.trentaEFrode.domain.parsers.ParserEventi;
 
 /**
- * Classe decicata ai controlli degli eventi.
+ * Classe Singleton che effettua operazioni in relazione agli eventi.
  * */
 public class GestoreEventi extends Gestore {
 
@@ -32,7 +31,6 @@ public class GestoreEventi extends Gestore {
 	 * 
 	 * @param evento: l'evento su cui effettuare i controlli.
 	 * @return la lista dei codici corrispondenti alle risposte dei controlli.
-	 * @throws ConnectException
 	 */
 	public List<Integer> effettuaControlli(Evento evento) {
 		String nome = evento.nome();
@@ -48,7 +46,6 @@ public class GestoreEventi extends Gestore {
 		controllaLuogo(luogo, risposta);
 		controllaMinMax(min, max, risposta);
 		if (risposta.size() != 0) return risposta;
-		
 		risposta.add(this.registratore.registra(evento) ? -1 : 0);
 		return risposta;
 	}
@@ -59,8 +56,7 @@ public class GestoreEventi extends Gestore {
 	 * codice corrispondene a tale errore.
 	 * 
 	 * @param dataOra: l'oggetto da controllare
-	 * @param lista: la lista su cui aggiungere l'eventuale codice dell'errore
-	 *        verificato.
+	 * @param lista: la lista su cui aggiungere l'eventuale codice dell'errore verificato.
 	 */
 	private void controllaDataOra(GregorianCalendar dataOra, List<Integer> lista) {
 		try {
@@ -121,13 +117,31 @@ public class GestoreEventi extends Gestore {
 		return null;
 	}
 
+	/**
+	 * Effettua una ricerca degli eventi aventi i parametri passati.
+	 * @param parola : una parola che deve essere contenuta nel nome dell'evento
+	 * @param categoria : la categoria che devono acere gli eventi cercati
+	 * @param citta : la citta' dove si svolge l'evento 
+	 * @param provincia : la provincia dove di svolge l'evento
+	 * @param da : la data di inizio del range di svolgimento degli eventi.
+	 * @param a : la data di fine del range di svolgimento degli eventi.
+	 * @param idUtente : id dell'utente che effettua la ricerca.
+	 * @return la lista degli eventi trovati.
+	 */
 	public List<Evento> cerca(String parola, String categoria, String citta, String provincia, 
 			GregorianCalendar da, GregorianCalendar a, int idUtente) {
 		String date = controllaDate(da, a);
 		String listaEventi = ConnectBackEnd.getInstance().restRequest("/cerca/" + parola + ":" + categoria + ":" + citta + ":" + provincia + ":" + date + ":" + idUtente + "", "GET");
-		return ParserEventi.getInstance().parseEventi(listaEventi);
+		return ParserEventi.getInstance().parseEventiFromServerToClient(listaEventi);
 	}
 
+	/**
+	 * Controlla la validità delle date, se non valide vengono sostituite con i valori di default 
+	 * (da = "adesso" a = "esattamente tra una settimana").
+	 * @param da : la data di inizio del range di svolgimento degli eventi.
+	 * @param a : la data di fine del range di svolgimento degli eventi.
+	 * @return le date risultanti in formato stringa.
+	 */
 	private String controllaDate(GregorianCalendar da, GregorianCalendar a) {
 		GregorianCalendar oggi = new GregorianCalendar();
 		if(a.before(da)) {
@@ -144,8 +158,35 @@ public class GestoreEventi extends Gestore {
 				a.get(Calendar.YEAR) + ":" +a.get(Calendar.MONTH)+1 + ":" + a.get(Calendar.DAY_OF_MONTH) ;
 	}
 
-	public String disdiciPartecipazione(int idEvento, int idUtente) {
-		return ConnectBackEnd.getInstance().restRequest("/partecipa/disdici/" + idEvento + ":" + idUtente, "GET");
+	
+	/**
+	 * Disdice la partecipazione dell'utente avente come id idUtente all'evento avente come id idEvento
+	 * @param idEvento : l'id dell'evento da disdire.
+	 * @param idUtente : l'id dell'utente che vuole disdire la partecipazione.
+	 * @return true se l'operazione è andata a buon fine, false altrimenti.
+	 */
+	public boolean disdiciPartecipazione(int idEvento, int idUtente) {
+		return ConnectBackEnd.getInstance().restRequest("/partecipa/disdici/", "DELETE", idEvento + ":" + idUtente);
+	}
+
+	/**
+	 * Cambia l'organizzatore dell'evento con id idEvento da idVecchioOrganizzatore a idNuovoOrganizzatore.
+	 * @param idEvento : l'id dell'evento da cambiare.
+	 * @param idNuovoOrganizzatore : l'id del nuovo organizzatore.
+	 * @param idVecchioOrganizzatore : l'id del vecchio organizzatore.
+	 * @return true se l'operazione è andata a buon fine, false altrimenti.
+	 */
+	public boolean cambiaOrganizzatore(int idEvento, int idNuovoOrganizzatore,int idVecchioOrganizzatore) {
+		return ConnectBackEnd.getInstance().restRequest("/evento/cambiaorganizzatore/", "POST", idEvento + ":" + idNuovoOrganizzatore+":"+idVecchioOrganizzatore );
+	}
+
+	/**
+	 * Cancella l'evento con id idEvento.
+	 * @param idEvento : l'id dell'evento da cancellare.
+	 * @return true se l'operazione è andata a buon fine, false altrimenti.
+	 */
+	public boolean cancellaEvento(int idEvento) {
+		return ConnectBackEnd.getInstance().restRequest("/eventi/cancella/", "DELETE", String.valueOf(idEvento));
 	}
 
 }

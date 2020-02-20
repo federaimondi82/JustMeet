@@ -2,6 +2,9 @@ package unicam.trentaEFrode.domain.parsers;
 
 import java.util.GregorianCalendar;
 
+/*
+ * Classe che si occupa di parsare la data dal client al server e viceversa.
+ * */
 public class ParserData {
 	
 	private static ParserData instance;	

@@ -8,7 +8,7 @@ import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 import unicam.trentaEFrode.domain.mainElements.Evento;
-import unicam.trentaEFrode.domain.users.Organizzatore;
+import unicam.trentaEFrode.domain.users.Ruolo;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 class TestUseCaseCancellaEvento {
@@ -21,16 +21,21 @@ class TestUseCaseCancellaEvento {
 	@Test
 	void testCancellaEvento() {
 		UtenteRegistrato utente = UtenteRegistrato.getInstance().id(2);
-		Organizzatore organizzatore = utente.getOrganizzatore();
-		//Step 1 :Recupero degli eventi creati dall'utente
-		List<Evento> agenda = organizzatore.getAgenda().getEventi();
+		Ruolo organizzatore = utente.setRuolo(1);
+		
+		// Step 1 :Recupero degli eventi creati dall'utente
+		List<Evento> agenda = organizzatore.getEventi();
 		assertFalse(agenda.isEmpty());
-		//Step 2 : Scelta di un evento randomico da cancellare
+		
+		// Step 2 : Scelta di un evento randomico da cancellare
 		Evento eventoDaCancellare =	agenda.get(new Random().nextInt(agenda.size()));
-		//Step 3 : Cancellare l'evento
+		
+		// Step 3 : Cancellare l'evento
 		boolean result = organizzatore.cancellaEvento(eventoDaCancellare.id());
 		assertTrue(result);
-		// Step 4 : Reinserimento l'evento cancellato.		 
+		
+		// Step 4 : Reinserimento l'evento cancellato.		
+		eventoDaCancellare.setId(-1);
 		assertTrue(utente.creaEvento(eventoDaCancellare).get(0) == -1);
 	}
 }

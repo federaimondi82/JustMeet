@@ -34,7 +34,6 @@ public class RegistroStatico {
 	
 	private File cacheFile;
 	private String path;
-	private String fileName;
 	
 	private List<String> fileStatico;
 	
@@ -94,10 +93,7 @@ public class RegistroStatico {
 	 * @return il file di cache
 	 */
 	public File getCacheFile() {
-		File f=null;
-		if(this.cacheFile==null) {
-			f=new File(this.path);
-		}
+		if(this.cacheFile==null) this.cacheFile = new File(this.path);
 		return this.cacheFile;
 	}
 	

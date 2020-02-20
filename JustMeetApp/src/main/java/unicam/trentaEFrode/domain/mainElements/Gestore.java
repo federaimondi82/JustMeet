@@ -1,5 +1,8 @@
 package unicam.trentaEFrode.domain.mainElements;
 
+/**
+ * Classe astratta rappresentante un gestore.
+ * */
 public abstract class Gestore {
 
 	/**

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import unicam.trentaEFrode.domain.parsers.ParserPartecipanti;
 import unicam.trentaEFrode.exceptions.CategoriaInesistente;
 
 public class Evento {
@@ -60,7 +61,7 @@ public class Evento {
 	/**
 	 * 	Lista id dei partecipanti
 	 * */
-	List<Integer> partecipanti;
+	List<String> partecipanti;
 
 	private boolean confermato;
 
@@ -247,6 +248,12 @@ public class Evento {
 		return luogo;
 	}
 
+	public List<String> getPartecipanti(){
+		if(partecipanti.isEmpty()) partecipanti = ParserPartecipanti.getInstance().parsePartecipantiFromServer(ConnectBackEnd.getInstance().restRequest("/partecipa/partecipanti/" + id, "GET"));
+		return partecipanti;
+	}
+	
+	
 	/**
 	 * @param maxPartecipanti the maxPartecipants to set
 	 */
@@ -312,7 +319,7 @@ public class Evento {
 		return this;
 	}
 
-	public Evento setPartecipanti(List<Integer> partecipanti) {
+	public Evento setPartecipanti(List<String> partecipanti) {
 		this.partecipanti = partecipanti;
 		return this;
 	}
@@ -331,31 +338,30 @@ public class Evento {
 		int MM=dataOra.get(Calendar.MINUTE);
 		String data=aaaa+":"+mm+":"+gg+":"+HH+":"+MM;
 		
-		/*
-		 * {id}:{nome}:{aaaa}:{mm}:{gg}:{HH}:{MM}:{min}:"
-			+ "{max}:{descr}:{durata}:{nomeLuogo}:{indirizzo}:{civico}:"
-			+ "{cap}:{citta}:{prov}:{idCat}:{idUtente}"
-		 * */
-		
 		return id + ":" + nome.replace(" ", "_") + ":" + data + ":" + minPartecipanti
 				+ ":" + maxPartecipanti + ":" + descrizione.replace(" ", "_") + ":" + durata
 				+ ":" + luogo.toString() + ":" +categoria.getId() + ":" + organizzatore;
 	}	
 	
+	/**
+	 * Consente di confrontare l'evento con l'oggetto passato.
+	 * @param o : l'oggetto da confrontare.
+	 * @return true se l'oggetto è di tipo evento e hanno gli stessi attributi, false altrimenti.
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if(!(o instanceof Evento)) return false;
 		Evento evento = (Evento) o;
 		return
-		this.id == evento.id() &&
-		this.nome.equals(evento.nome()) &&
-		this.dataOra.equals(evento.dataOra()) &&
-		this.minPartecipanti == evento.minPartecipanti() &&
-		this.maxPartecipanti == evento.maxPartecipanti() &&
-		this.descrizione.equals(evento.descrizione()) &&
-		this.durata == durata() &&
-		this.luogo.equals(evento.luogo()) &&
-		this.categoria.equals(evento.categoria());
+			this.id == evento.id() &&
+			this.nome.equals(evento.nome()) &&
+			this.dataOra.equals(evento.dataOra()) &&
+			this.minPartecipanti == evento.minPartecipanti() &&
+			this.maxPartecipanti == evento.maxPartecipanti() &&
+			this.descrizione.equals(evento.descrizione()) &&
+			this.durata == durata() &&
+			this.luogo.equals(evento.luogo()) &&
+			this.categoria.equals(evento.categoria());
 	}
 
 	public String durataStringa() {

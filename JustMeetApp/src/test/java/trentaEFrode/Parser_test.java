@@ -27,7 +27,7 @@ class Parser_test {
 	@Test
 	public void parserEventiFromServer() throws ConnectException {
 		String jsonEventi = ConnectBackEnd.getInstance().restRequest("/eventi/utenti/2", "GET");
-		List<Evento> lista = ParserEventi.getInstance().parseEventi(jsonEventi);
+		List<Evento> lista = ParserEventi.getInstance().parseEventiFromServerToClient(jsonEventi);
 		assertTrue(lista.size()>0);
 	}
 

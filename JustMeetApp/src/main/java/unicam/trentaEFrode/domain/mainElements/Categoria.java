@@ -3,14 +3,10 @@ package unicam.trentaEFrode.domain.mainElements;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
 /**
- * Questa classe consente di modellizzare le categorie/interessi degli eventi;
- * potrebbe essere la categoria "sport" o "cucina" ecc...
- * Le categorie disponibili vengono caricare ad avvio dell'applicazione consultado il backend;
- *  è infatti in backend a dettare le categorie disponibili, questo per non sovraccarivare il
- *  database con categorie personalizzate
- *
- *@see Evento
- *@see UtenteRegistrato
+ * Questa classe consente di modellizzare le categorie/interessi degli eventi.
+ * Le categorie disponibili vengono caricare mediante un file di cache e confrontate con le categorie 
+ * @see Evento
+ * @see UtenteRegistrato
  */
 public class Categoria {
 	
@@ -78,7 +74,14 @@ public class Categoria {
 		return id + ":" + nome + ":" + descrizione;
 	}
 	
+	
+	/**
+	 * Confronta l'attuale categoria con quella passata: due categorie vengono considerate uguali se 
+	 * hanno gli stessi attributi.
+	 * @param categoria: la categoria con la quale confrontare l'attuale categoria.
+	 * @return true se le due istanze hanno gli stessi attributi.
+	 */
 	public boolean equals(Categoria categoria) {
-		return nome.equals(categoria.nome());
+		return id == categoria.getId() & nome.equals(categoria.nome()) & descrizione.equals(categoria.descrizione());
 	}
 }

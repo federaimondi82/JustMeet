@@ -163,6 +163,12 @@ public class Luogo {
 		return nome.replace(" ", "_") + ":" + indirizzo.replace(" ", "_") + ":" + numeroCivico + ":" + cap+ ":" + citta.replace(" ", "_") + ":" + provincia;
 	}
 	
+	
+	/**
+	 * Confronta l'attuale luogo con quello passato.
+	 * @param luogo : l'istanza del luogo da confrontare.
+	 * @return true se i due luoghi hanno gli stessi attributi, false altrimenti.
+	 */
 	public boolean equals(Luogo luogo) {
 		return
 				this.nome.equals(luogo.nome()) &&

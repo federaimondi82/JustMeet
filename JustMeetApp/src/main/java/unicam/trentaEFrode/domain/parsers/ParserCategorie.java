@@ -5,12 +5,12 @@ import java.util.List;
 
 import unicam.trentaEFrode.domain.mainElements.Categoria;
 
+/*
+ * Classe che si occupa di parsare le categorie dal client al server e viceversa.
+ * */
 public class ParserCategorie {
 
 	private static ParserCategorie instance;	
-	private ParserCategorie() {
-
-	}
 	
 	public static ParserCategorie getInstance() {
 		if(instance==null) instance=new ParserCategorie();
@@ -25,22 +25,14 @@ public class ParserCategorie {
 	 * @see Categorie
 	 */
 	public List<Categoria> parseCategorieFromServer(String json) {
-		
-		if(json.contains(":"))json=json.split(":")[1];
-		if(json.contains("{"))json=json.replace("{", "");
-		if(json.contains("}"))json=json.replace("}", "");
-		if(json.contains("\""))json=json.replace("\"", "");
-		
+
 		List<Categoria> catList =new ArrayList<>();
 		
-		int j=json.split("_").length;		
-		for(int i=0;i<j;i++) {
-			String cat=json.split("_")[i];
-			String[] data =cat.split("-");
+		String[] categorie = json.split("_");
+		for(int i=0;i<categorie.length;i++) {
+			String[] data =categorie[i].split("-");
 			catList.add(new Categoria(Integer.parseInt(data[0]), data[1], data[2]));
 		}
-
-		
 		return catList;
 	}
 	

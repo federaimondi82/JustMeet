@@ -3,13 +3,12 @@ package unicam.trentaEFrode.domain.parsers;
 import java.util.GregorianCalendar;
 import unicam.trentaEFrode.domain.users.UtenteRegistrato;
 
-
+/*
+ * Classe che si occupa di parsare gli utenti dal client al server e viceversa.
+ * */
 public class ParserUser {
 	
 	private static ParserUser instance;	
-	private ParserUser() {
-
-	}
 	
 	public static ParserUser getInstance() {
 		if(instance==null) instance=new ParserUser();
@@ -61,10 +60,5 @@ public class ParserUser {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
-	
-	
-	
-	
 }

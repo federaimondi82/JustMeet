@@ -8,6 +8,9 @@ import unicam.trentaEFrode.domain.mainElements.Categoria;
 import unicam.trentaEFrode.domain.mainElements.Evento;
 import unicam.trentaEFrode.domain.mainElements.Luogo;
 
+/*
+ * Classe che si occupa di parsare gli eventi dal client al server e viceversa.
+ * */
 public class ParserEventi {
 
 	private static ParserEventi instance = null;
@@ -17,7 +20,12 @@ public class ParserEventi {
 		return instance;
 	}
 
-	public List<Evento> parseEventi(String newJson) {
+	/**
+	 * Trasforma la stringa passata in una lista di eventi.
+	 * @param newJson : la stringa da parsare
+	 * @return la lista degli eventi risultanti
+	 */
+	public List<Evento> parseEventiFromServerToClient(String newJson) {
 
 		if (newJson == "" | newJson == "null" | newJson == null) return new ArrayList<>();
 

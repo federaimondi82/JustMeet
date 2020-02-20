@@ -52,9 +52,7 @@ public class TestStart {
 			//lettura del file
 			boolean a=RegistroStatico.getInstance().cacheFileExists();
 			if(a==true) {
-				
-				File f2=RegistroStatico.getInstance().getCacheFile();
-				
+								
 				BufferedReader br=new BufferedReader(new FileReader(path));
 				
 				br.lines().forEach(line->{
