@@ -51,39 +51,40 @@ public class Setup {
      * se non esiste: il file viene creato, l'utente e' rimandato alla View di registrazione
      */
 	public void loadCacheFile() {
-		try {
-			if(RegistroStatico.getInstance().cacheFileExists()) {
-				//Se il file di cache esiste ma e' vuoto si va all'autenticazione
-				//altriemnte alla pagina principale
-				
-				if(UtenteRegistrato.getInstance().getNome()==null) {	
-					
-					try {
-						RegistroStatico.getInstance().fileReader();
-						RegistroStatico.getInstance().leggiUtente();
-						RegistroStatico.getInstance().leggiInteressi();
-						System.out.println(UtenteRegistrato.getInstance().toString());
-						System.out.println(UtenteRegistrato.getInstance().toStringInteressi());
-					}catch(IndexOutOfBoundsException e) {
-						AppViewManager.AUTENTICAZIONE.switchView();
-					}
-					
-					AppViewManager.AUTENTICAZIONE.switchView();
-				}else {
-
-					AppViewManager.HOME_PAGE.switchView();
-				}
-
-			}
-			else {
-				//se il file di cache non esiste viene cerato e si rimanda alla registrazione
-				if(RegistroStatico.getInstance().fileCreator()) {
-					AppViewManager.REGISTRAZIONE.switchView();
-				}
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		//TODO implementare il caso d'uso
+//		try {
+//			if(RegistroStatico.getInstance().cacheFileExists()) {
+//				//Se il file di cache esiste ma e' vuoto si va all'autenticazione
+//				//altriemnte alla pagina principale
+//				
+//				if(UtenteRegistrato.getInstance().getNome()==null) {	
+//					
+//					try {
+//						RegistroStatico.getInstance().fileReader();
+//						RegistroStatico.getInstance().leggiUtente();
+//						RegistroStatico.getInstance().leggiInteressi();
+//						System.out.println(UtenteRegistrato.getInstance().toString());
+//						System.out.println(UtenteRegistrato.getInstance().toStringInteressi());
+//					}catch(IndexOutOfBoundsException e) {
+//						AppViewManager.AUTENTICAZIONE.switchView();
+//					}
+//					
+//					AppViewManager.AUTENTICAZIONE.switchView();
+//				}else {
+//
+//					AppViewManager.HOME_PAGE.switchView();
+//				}
+//
+//			}
+//			else {
+//				//se il file di cache non esiste viene cerato e si rimanda alla registrazione
+//				if(RegistroStatico.getInstance().fileCreator()) {
+//					AppViewManager.REGISTRAZIONE.switchView();
+//				}
+//			}
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		
 	}
 	

@@ -8,8 +8,9 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import unicam.trentaEFrode.MainClass;
+
 import javafx.scene.image.Image;
+import unicam.trentaEFrode.MainClass;
 
 import java.util.Collection;
 import java.util.List;

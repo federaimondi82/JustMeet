@@ -6,17 +6,13 @@ import unicam.trentaEFrode.ui.AppViewManager;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.visual.Swatch;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+
 
 public class MainClass extends MobileApplication {
 
-    private UserClient authenticationClient;
 
     @Override
     public void init() {
-        //authenticationClient = new UserClient();
         AppViewManager.registerViewsAndDrawer(this);
     }
 
@@ -27,7 +23,6 @@ public class MainClass extends MobileApplication {
 
             ((Stage) scene.getWindow()).getIcons().add(new Image(MainClass.class.getResourceAsStream("/icon.png")));
 
-            //AppViewManager.AUTH.switchView();
             
            // Setup.getInstance().loadCacheFile();
             
@@ -37,9 +32,5 @@ public class MainClass extends MobileApplication {
             e.printStackTrace();
         }
 
-    }
-
-    public UserClient getUserClient() {
-        return authenticationClient;
     }
 }
